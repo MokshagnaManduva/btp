@@ -1,0 +1,20 @@
+{ 
+    "settingsVersion": 1, 
+    "users": [ 
+        { 
+            "id": "anon", 
+            "mouseDPI": 800, 
+            "mouseDegPerMillimeter": 2.82
+        }, 
+        { 
+            "id": "Mokshagna", 
+            "mouseDPI": 800, 
+            "mouseDegPerMillimeter": 1.2
+        }, 
+        { 
+            "id": "ise", 
+            "mouseDPI": 800, 
+            "mouseDegPerMillimeter": 1.2
+        } ]
+    
+} 

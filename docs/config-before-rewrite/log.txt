@@ -1,0 +1,1086 @@
+Application Log
+Start: Fri Aug 21 20:36:52 2026
+
+Searching 'samples' directory for sample experiments.
+Sample '[Sample]sa2019_1hit' added to experiment list
+Sample '[Sample]sa2019_track' added to experiment list
+Sample '[Sample]targetmodels' added to experiment list
+Sample '[Sample]targets' added to experiment list
+Sample '[Sample]tasks' added to experiment list
+Sample '[Sample]trials' added to experiment list
+Sample '[Sample]twoifc-task' added to experiment list
+Sample '[Sample]twoifc-trial' added to experiment list
+Sample '[Sample]weapons' added to experiment list
+
+Initializing System::findDataFile took 0.000572s
+
+Entering GApp::GApp()
+cwd = C:\Users\mokal\btp\FPSci-bin
+System::setAppDataDir("C:\Users\mokal\btp\FPSci-bin")
+System::setAppDataDirs()Initializing System::findDataFile took 0.001001s
+Setting video mode
+wglSwapIntervalEXT(0);
+Setting initial rendering state.
+Done setting initial state.
+104 ImageFormats:
+              Format  Readable    Writeable
+                  L8  Yes         Yes
+                 L16  Yes         Yes
+                L16F  Yes         Yes
+                L32F  Yes         Yes
+                  A8  Yes         Yes
+                 A16  Yes         Yes
+                A16F  Yes         Yes
+                A32F  Yes         Yes
+                 LA4  Yes         Yes
+                 LA8  Yes         Yes
+                LA16  Yes         Yes
+               LA16F  Yes         Yes
+               LA32F  Yes         Yes
+                RGB5  Yes         Yes
+              RGB5A1  Yes         Yes
+                RGB8  Yes         Yes
+               RGB10  Yes         Yes
+             RGB10A2  Yes         Yes
+               RGB16  Yes         Yes
+              RGB16F  Yes         Yes
+              RGB32F  Yes         Yes
+          R11G11B10F  Yes         Yes
+             RGB9E5F  Yes         No 
+               RGB8I  Yes         Yes
+              RGB8UI  Yes         Yes
+              RGBA8I  Yes         Yes
+             RGBA8UI  Yes         Yes
+          RGB8_SNORM  Yes         Yes
+         RGBA8_SNORM  Yes         Yes
+         RGB16_SNORM  Yes         Yes
+        RGBA16_SNORM  Yes         Yes
+                BGR8  Yes         Yes
+               BGRA8  Yes         Yes
+                  R8  Yes         Yes
+                 R8I  Yes         Yes
+                R8UI  Yes         Yes
+            R8_SNORM  Yes         Yes
+                 R16  Yes         Yes
+                R16I  Yes         Yes
+               R16UI  Yes         Yes
+           R16_SNORM  Yes         Yes
+                R16F  Yes         Yes
+                R32I  Yes         Yes
+               R32UI  Yes         Yes
+                 RG8  Yes         Yes
+                RG8I  Yes         Yes
+               RG8UI  Yes         Yes
+           RG8_SNORM  Yes         Yes
+                RG16  Yes         Yes
+               RG16I  Yes         Yes
+              RG16UI  Yes         Yes
+          RG16_SNORM  Yes         Yes
+               RG16F  Yes         Yes
+               RG32I  Yes         Yes
+              RG32UI  Yes         Yes
+                R32F  Yes         Yes
+               RG32F  Yes         Yes
+               RGBA8  Yes         Yes
+              RGBA16  Yes         Yes
+             RGBA16F  Yes         Yes
+             RGBA32F  Yes         Yes
+             RGBA16I  Yes         Yes
+            RGBA16UI  Yes         Yes
+              RGB32I  Yes         Yes
+             RGB32UI  Yes         Yes
+             RGBA32I  Yes         Yes
+            RGBA32UI  Yes         Yes
+               RGBA4  Yes         Yes
+               RGBA2  Yes         Yes
+       YUV420_PLANAR  No          No 
+              YUV422  No          No 
+              YUV444  No          No 
+            RGB_DXT1  Yes         No 
+           RGBA_DXT1  Yes         No 
+           RGBA_DXT3  Yes         No 
+           RGBA_DXT5  Yes         No 
+               SRGB8  Yes         Yes
+              SRGBA8  Yes         Yes
+                 SL8  Yes         Yes
+                SLA8  Yes         Yes
+           SRGB_DXT1  Yes         No 
+          SRGBA_DXT1  Yes         No 
+          SRGBA_DXT3  Yes         No 
+          SRGBA_DXT5  Yes         No 
+             DEPTH16  Yes         No 
+             DEPTH24  Yes         No 
+             DEPTH32  Yes         No 
+            DEPTH32F  Yes         No 
+            STENCIL1  No          No 
+            STENCIL4  No          No 
+            STENCIL8  Yes         No 
+           STENCIL16  No          No 
+    DEPTH24_STENCIL8  Yes         No 
+
+Capability    Minimum   Desired   Received  Ok?
+-------------------------------------------------
+* RENDER DEVICE 
+Depth         16 bits   24 bits   24 bits   ok
+Stencil        8 bits    8 bits    8 bits   ok
+Alpha                              8 bits   ok
+Red                                8 bits   ok
+Green                              8 bits   ok
+Blue                               8 bits   ok
+FSAA                       1     1    ok
+Width                 1920 pixels           ok
+Height                1080 pixels           ok
+Mode                 Fullscreen             ok
+
+This driver does support G3D 10:
+GLSL version 4.10                   yes - GLSL version on this driver is 4.60
+GPU Supports OpenGL 4.1 or later    yes - OpenGL version on this driver is 4.42
+            GL_ARB_sample_shading   yes - Optional
+
+
+Done initializing RenderDevice.
+Network StartupSystem = { 
+    App { 
+        Name = "C:\\Users\\mokal\\btp\\FPSci-bin\\FirstPersonScience.exe"
+        cwd = "C:\\Users\\mokal\\btp\\FPSci-bin"
+    } 
+    
+    OS { 
+        Name = "Windows 6.2 build 9200 Platform 2 "
+    } 
+    
+    CPU { 
+        Architecture = "Intel/AMD x64"
+        Num HW Threads = 28 
+    } 
+    
+    G3D { 
+        Link version = 100100 
+        Compile version = "G3D Innovation Engine 10.01"
+        G3DSpecification::deployMode = No 
+        G3D10DATA = ""
+    } 
+    
+    GPU = { 
+        Chipset = "NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2;"
+        Vendor = "NVIDIA Corporation;"
+        Driver = "Unknown (Can't find driver);"
+        OpenGL version = "4.6.0 NVIDIA 581.86;"
+        Textures = 32 ;
+        Texture coordinates = 8 ;
+        Texture units = 4 ;
+        GL_MAX_TEXTURE_SIZE = 32768 ;
+        GL_MAX_CUBE_MAP_TEXTURE_SIZE = 32768 ;
+        GL_MAX_COLOR_ATTACHMENTS = 8 ;
+    } ; 
+    
+    Window = { 
+        API = "GLFW;"
+        Version = "3.3.2 Win32 WGL EGL OSMesa VisualC;"
+        
+        In focus = true; 
+        Centered = true; 
+        Framed = true; 
+        Visible = true; 
+        Resizable = false; 
+        Full screen = true; 
+        Top = 0 ;
+        Left = 0 ;
+        Width = 1920 ;
+        Height = 1080 ;
+        Refresh rate = 144 ;
+        
+        Alpha bits = 0 ;
+        Red bits = 8 ;
+        Green bits = 8 ;
+        Blue bits = 8 ;
+        Depth bits = 24 ;
+        Stencil bits = 8 ;
+        Asynchronous = true; 
+        Stereo = false; 
+        FSAA samples = 1 ;
+        GL extensions = [ GL_NV_query_resource_tag,
+             GL_ARB_gl_spirv,
+             GL_NV_vertex_buffer_unified_memory,
+             GL_NV_conditional_render,
+             GL_NV_gpu_multicast,
+             GL_ARB_shader_texture_image_samples,
+             GL_ARB_spirv_extensions,
+             GL_ARB_compute_shader,
+             GL_EXT_separate_shader_objects,
+             GL_NV_shader_atomic_counters,
+             GL_ARB_half_float_pixel,
+             GL_NVX_blend_equation_advanced_multi_draw_buffers,
+             GL_NV_uniform_buffer_std430_layout,
+             GL_ARB_texture_buffer_object,
+             GL_ARB_framebuffer_object,
+             GL_EXT_gpu_program_parameters,
+             GL_NV_texture_rectangle_compressed,
+             GL_EXT_semaphore,
+             GL_NV_compute_shader_derivatives,
+             GL_ARB_texture_buffer_range,
+             GL_EXT_texture_compression_rgtc,
+             GL_ARB_depth_buffer_float,
+             GL_ARB_sparse_buffer,
+             GL_ARB_shader_objects,
+             GL_NV_framebuffer_multisample_coverage,
+             GL_EXT_abgr,
+             GL_ARB_shader_atomic_counters,
+             GL_ARB_transform_feedback3,
+             GL_ARB_vertex_shader,
+             GL_ARB_base_instance,
+             GL_ARB_point_parameters,
+             GL_S3_s3tc,
+             GL_ARB_map_buffer_alignment,
+             GL_NV_vertex_program3,
+             GL_EXT_texture_filter_minmax,
+             GL_ARB_sync,
+             GL_NV_register_combiners,
+             GL_EXT_packed_float,
+             GL_ARB_texture_mirror_clamp_to_edge,
+             GL_OVR_multiview2,
+             GL_ARB_pixel_buffer_object,
+             GL_ARB_compressed_texture_pixel_storage,
+             GL_ARB_texture_env_crossbar,
+             GL_ARB_internalformat_query2,
+             GL_NV_vertex_program2,
+             GL_KHR_robustness,
+             GL_NV_explicit_multisample,
+             GL_ARB_vertex_buffer_object,
+             GL_ARB_vertex_attrib_64bit,
+             GL_ARB_blend_func_extended,
+             GL_AMD_vertex_shader_viewport_index,
+             GL_EXT_bindable_uniform,
+             GL_ARB_polygon_offset_clamp,
+             GL_NV_internalformat_sample_query,
+             GL_KHR_robust_buffer_access_behavior,
+             GL_ARB_texture_query_levels,
+             GL_EXT_texture_storage,
+             GL_ARB_texture_compression_rgtc,
+             GL_NV_multisample_coverage,
+             GL_SGIX_depth_texture,
+             GL_EXT_blend_color,
+             GL_ARB_copy_buffer,
+             GL_NV_stereo_view_rendering,
+             GL_ARB_vertex_array_bgra,
+             GL_ARB_fragment_program_shadow,
+             GL_NV_timeline_semaphore,
+             GL_ARB_draw_buffers_blend,
+             GL_NV_gpu_program_multiview,
+             GL_ARB_multi_draw_indirect,
+             GL_IBM_texture_mirrored_repeat,
+             GL_NV_viewport_swizzle,
+             GL_EXT_texture_swizzle,
+             GL_NV_sample_mask_override_coverage,
+             GL_EXT_stencil_wrap,
+             GL_ARB_internalformat_query,
+             GL_ATI_draw_buffers,
+             GL_NV_gpu_program4_1,
+             GL_NV_copy_depth_to_color,
+             GL_ARB_texture_cube_map_array,
+             GL_ARB_instanced_arrays,
+             GL_ARB_texture_swizzle,
+             GL_ARB_texture_barrier,
+             GL_ARB_map_buffer_range,
+             GL_EXT_framebuffer_multisample_blit_scaled,
+             GL_ARB_draw_buffers,
+             GL_EXT_texture_edge_clamp,
+             GL_ARB_texture_compression_bptc,
+             GL_EXT_texture_cube_map,
+             GL_EXT_draw_instanced,
+             GL_AMD_multi_draw_indirect,
+             GL_EXT_shader_image_load_store,
+             GL_NV_shader_atomic_fp16_vector,
+             GL_NV_depth_clamp,
+             GL_EXT_bgra,
+             GL_EXT_multiview_timer_query,
+             GL_ARB_texture_non_power_of_two,
+             GL_EXT_separate_specular_color,
+             GL_EXT_texture_integer,
+             GL_NV_path_rendering_shared_edge,
+             GL_NV_packed_depth_stencil,
+             GL_ARB_explicit_uniform_location,
+             GL_EXT_framebuffer_object,
+             GL_NV_shader_storage_buffer_object,
+             GL_AMD_vertex_shader_layer,
+             GL_EXT_post_depth_coverage,
+             GL_EXT_multiview_texture_multisample,
+             GL_EXT_sparse_texture2,
+             GL_ARB_color_buffer_float,
+             GL_EXT_texture_sRGB,
+             GL_ARB_uniform_buffer_object,
+             GL_ARB_sample_locations,
+             GL_NV_multisample_filter_hint,
+             GL_ARB_shader_draw_parameters,
+             GL_ARB_texture_mirrored_repeat,
+             GL_EXT_depth_bounds_test,
+             GL_EXT_fog_coord,
+             GL_NV_gpu_program4,
+             GL_NVX_multigpu_info,
+             GL_NV_parameter_buffer_object2,
+             GL_ARB_multi_bind,
+             GL_ARB_vertex_attrib_binding,
+             GL_NV_texture_shader,
+             GL_ARB_post_depth_coverage,
+             GL_ARB_gpu_shader5,
+             GL_SGIX_shadow,
+             GL_ARB_framebuffer_sRGB,
+             GL_NV_feature_query,
+             GL_NV_texgen_reflection,
+             GL_EXT_timer_query,
+             GL_EXT_gpu_shader4,
+             GL_NV_sample_locations,
+             GL_ARB_texture_gather,
+             GL_ARB_clip_control,
+             GL_EXT_blend_func_separate,
+             GL_ARB_texture_stencil8,
+             GL_ARB_transform_feedback_instanced,
+             GL_ARB_texture_buffer_object_rgb32,
+             GL_NV_gpu_program5_mem_extended,
+             GL_NVX_linked_gpu_multicast,
+             GL_EXT_vertex_array_bgra,
+             GL_ARB_texture_rg,
+             GL_ARB_texture_compression,
+             GL_NV_compute_program5,
+             GL_EXT_import_sync_object,
+             GL_EXT_texture_lod,
+             GL_NV_shader_subgroup_partitioned,
+             GL_ARB_gpu_shader_fp64,
+             GL_NV_occlusion_query,
+             GL_NV_texture_compression_vtc,
+             GL_NV_conservative_raster_underestimation,
+             GL_ARB_seamless_cubemap_per_texture,
+             GL_ARB_draw_instanced,
+             GL_NV_blend_equation_advanced_coherent,
+             GL_NV_conservative_raster_pre_snap,
+             GL_ARB_debug_output,
+             GL_ARB_vertex_type_2_10_10_10_rev,
+             GL_EXT_draw_range_elements,
+             GL_EXT_texture_env_dot3,
+             GL_ARB_imaging,
+             GL_NV_blend_equation_advanced,
+             GL_KHR_blend_equation_advanced,
+             GL_ARB_stencil_texturing,
+             GL_NV_point_sprite,
+             GL_EXT_compiled_vertex_array,
+             GL_EXT_texture_env_add,
+             GL_EXT_shadow_funcs,
+             GL_ARB_query_buffer_object,
+             GL_OVR_multiview,
+             GL_NV_shading_rate_image,
+             GL_ARB_program_interface_query,
+             GL_ARB_texture_rectangle,
+             GL_EXT_texture_lod_bias,
+             GL_IBM_rasterpos_clip,
+             GL_ARB_gpu_shader_int64,
+             GL_KHR_debug,
+             GL_NV_fill_rectangle,
+             GL_NV_depth_buffer_float,
+             GL_EXT_stencil_two_side,
+             GL_EXT_blend_minmax,
+             GL_NV_fragment_program2,
+             GL_ARB_vertex_program,
+             GL_EXT_texture_mirror_clamp,
+             GL_NV_conservative_raster,
+             GL_ARB_geometry_shader4,
+             GL_ARB_texture_filter_minmax,
+             GL_ARB_shader_atomic_counter_ops,
+             GL_ARB_multisample,
+             GL_NVX_conditional_render,
+             GL_NV_texture_env_combine4,
+             GL_NV_shader_buffer_load,
+             GL_NV_texture_dirty_tile_map,
+             GL_ARB_shading_language_include,
+             GL_ARB_shader_subroutine,
+             GL_ARB_occlusion_query,
+             GL_ARB_texture_rgb10_a2ui,
+             GL_ARB_ES3_compatibility,
+             GL_ARB_pipeline_statistics_query,
+             GL_ARB_arrays_of_arrays,
+             GL_NV_vertex_program2_option,
+             GL_NV_bindless_multi_draw_indirect_count,
+             GL_NV_geometry_shader_passthrough,
+             GL_ARB_explicit_attrib_location,
+             GL_EXT_texture_array,
+             GL_NV_copy_image,
+             GL_ARB_texture_env_dot3,
+             GL_NV_light_max_exponent,
+             GL_ARB_point_sprite,
+             GL_ARB_multitexture,
+             GL_KTX_buffer_region,
+             GL_ARB_shader_viewport_layer_array,
+             GL_NV_pixel_data_range,
+             GL_EXT_texture_sRGB_R8,
+             GL_EXT_shader_integer_mix,
+             GL_NV_fragment_program_option,
+             GL_NV_fog_distance,
+             GL_ARB_shading_language_packing,
+             GL_NV_primitive_shading_rate,
+             GL_ARB_texture_env_combine,
+             GL_NV_blend_minmax_factor,
+             GL_EXT_texture_shared_exponent,
+             GL_ARB_shader_image_size,
+             GL_EXT_texture_compression_s3tc,
+             GL_ARB_derivative_control,
+             GL_ARB_sparse_texture,
+             GL_EXT_Cg_shader,
+             GL_EXT_texture_filter_anisotropic,
+             GL_NVX_gpu_memory_info,
+             GL_ARB_sparse_texture2,
+             GL_ARB_tessellation_shader,
+             GL_NV_vertex_program,
+             GL_SGIS_texture_lod,
+             GL_ARB_direct_state_access,
+             GL_EXT_memory_object_win32,
+             GL_ARB_shading_language_420pack,
+             GL_NV_fence,
+             GL_ARB_ES2_compatibility,
+             GL_NVX_progress_fence,
+             GL_ARB_shader_precision,
+             GL_ARB_clear_buffer_object,
+             GL_ARB_copy_image,
+             GL_NV_primitive_restart,
+             GL_KHR_blend_equation_advanced_coherent,
+             GL_ARB_vertex_type_10f_11f_11f_rev,
+             GL_EXT_win32_keyed_mutex,
+             GL_ARB_shader_image_load_store,
+             GL_EXTX_framebuffer_mixed_formats,
+             GL_NV_gpu_program5,
+             GL_ARB_fragment_program,
+             GL_NV_gpu_program_fp64,
+             GL_EXT_texture_buffer_object,
+             GL_ARB_transform_feedback2,
+             GL_ARB_provoking_vertex,
+             GL_ARB_window_pos,
+             GL_KHR_parallel_shader_compile,
+             GL_ARB_depth_clamp,
+             GL_NV_command_list,
+             GL_EXT_packed_depth_stencil,
+             GL_SUN_slice_accum,
+             GL_ARB_shader_texture_lod,
+             GL_ARB_ES3_1_compatibility,
+             GL_ARB_compatibility,
+             GL_ARB_occlusion_query2,
+             GL_EXT_texture_compression_dxt1,
+             GL_NV_clip_space_w_scaling,
+             GL_EXT_draw_buffers2,
+             GL_ARB_clear_texture,
+             GL_ARB_compute_variable_group_size,
+             GL_EXT_blend_subtract,
+             GL_ARB_fragment_shader_interlock,
+             GL_ARB_seamless_cube_map,
+             GL_EXT_transform_feedback2,
+             GL_ARB_depth_texture,
+             GL_NV_texture_shader2,
+             GL_ARB_enhanced_layouts,
+             GL_EXT_memory_object,
+             GL_KHR_context_flush_control,
+             GL_ARB_transpose_matrix,
+             GL_EXT_framebuffer_multisample,
+             GL_NV_memory_attachment,
+             GL_EXT_multi_draw_arrays,
+             GL_SGIS_generate_mipmap,
+             GL_NV_memory_object_sparse,
+             GL_EXT_rescale_normal,
+             GL_NV_shader_atomic_int64,
+             GL_EXT_texture3D,
+             GL_NV_vertex_attrib_integer_64bit,
+             GL_NV_vertex_program1_1,
+             GL_NV_register_combiners2,
+             GL_EXT_texture_shadow_lod,
+             GL_ARB_sparse_texture_clamp,
+             GL_EXT_vertex_array,
+             GL_ARB_conservative_depth,
+             GL_EXT_pixel_buffer_object,
+             GL_NV_texture_barrier,
+             GL_NVX_gpu_multicast2,
+             GL_NV_float_buffer,
+             GL_NV_conservative_raster_pre_snap_triangles,
+             GL_ARB_shader_clock,
+             GL_ARB_texture_storage,
+             GL_EXT_polygon_offset_clamp,
+             GL_NV_bindless_texture,
+             GL_NV_ES1_1_compatibility,
+             GL_AMD_seamless_cubemap_per_texture,
+             GL_ARB_fragment_coord_conventions,
+             GL_ARB_viewport_array,
+             GL_ARB_draw_elements_base_vertex,
+             GL_NV_ES3_1_compatibility,
+             GL_EXT_geometry_shader4,
+             GL_ARB_robustness,
+             GL_KHR_shader_subgroup,
+             GL_NVX_nvenc_interop,
+             GL_NV_blend_square,
+             GL_ARB_conditional_render_inverted,
+             GL_EXT_framebuffer_blit,
+             GL_ARB_invalidate_subdata,
+             GL_EXT_semaphore_win32,
+             GL_ATI_texture_float,
+             GL_EXT_texture_compression_latc,
+             GL_EXT_provoking_vertex,
+             GL_ARB_fragment_shader,
+             GL_EXT_blend_equation_separate,
+             GL_ARB_parallel_shader_compile,
+             GL_EXT_shader_image_load_formatted,
+             GL_EXT_vertex_attrib_64bit,
+             GL_NV_draw_vulkan_image,
+             GL_ARB_get_program_binary,
+             GL_ARB_vertex_array_object,
+             GL_ARB_texture_float,
+             GL_ARB_texture_env_add,
+             GL_ARB_sample_shading,
+             GL_ARB_shading_language_100,
+             GL_ARB_shader_ballot,
+             GL_EXT_direct_state_access,
+             GL_EXT_point_parameters,
+             GL_ARB_fragment_layer_viewport,
+             GL_ARB_timer_query,
+             GL_NV_fragment_coverage_to_color,
+             GL_NV_bindless_multi_draw_indirect,
+             GL_NV_path_rendering,
+             GL_NV_shader_thread_shuffle,
+             WGL_EXT_swap_control,
+             GL_EXT_raster_multisample,
+             GL_NV_transform_feedback,
+             GL_NV_shader_atomic_float,
+             GL_ARB_shader_storage_buffer_object,
+             GL_NV_half_float,
+             GL_ARB_framebuffer_no_attachments,
+             GL_EXT_window_rectangles,
+             GL_ARB_texture_cube_map,
+             GL_ARB_texture_filter_anisotropic,
+             GL_NV_shader_texture_footprint,
+             GL_ARB_get_texture_sub_image,
+             GL_NV_vertex_array_range,
+             GL_ARB_indirect_parameters,
+             GL_ARB_texture_multisample,
+             GL_ARB_half_float_vertex,
+             GL_NV_gpu_shader5,
+             GL_NV_texture_rectangle,
+             GL_NV_alpha_to_coverage_dither_control,
+             GL_ARB_texture_query_lod,
+             GL_NV_geometry_shader4,
+             GL_EXT_texture_object,
+             GL_KHR_no_error,
+             GL_NV_mesh_shader,
+             GL_ARB_texture_storage_multisample,
+             GL_NV_scissor_exclusive,
+             GL_ARB_texture_view,
+             GL_NV_shader_atomic_float64,
+             GL_EXT_secondary_color,
+             GL_NV_draw_texture,
+             GL_ARB_robust_buffer_access_behavior,
+             GL_EXT_framebuffer_sRGB,
+             GL_ARB_separate_shader_objects,
+             GL_ARB_cull_distance,
+             GL_ARB_draw_indirect,
+             GL_ARB_shader_bit_encoding,
+             GL_ARB_sampler_objects,
+             GL_EXT_texture_env_combine,
+             GL_ARB_ES3_2_compatibility,
+             GL_ATI_texture_mirror_once,
+             GL_ARB_transform_feedback_overflow_query,
+             GL_NV_parameter_buffer_object,
+             GL_NV_representative_fragment_test,
+             GL_ARB_shader_group_vote,
+             GL_ARB_buffer_storage,
+             GL_WIN_swap_hint,
+             GL_EXT_texture_sRGB_decode,
+             GL_NV_framebuffer_mixed_samples,
+             GL_NV_texture_shader3,
+             GL_EXT_packed_pixels,
+             GL_NV_fragment_shader_barycentric,
+             GL_NV_shader_thread_group,
+             GL_ARB_shadow,
+             GL_NV_transform_feedback2,
+             GL_NV_query_resource,
+             GL_NV_fragment_program,
+             GL_NV_texture_multisample,
+             GL_NV_fragment_shader_interlock,
+             GL_NV_viewport_array2,
+             GL_ARB_texture_border_clamp,
+             GL_NV_conservative_raster_dilate,
+             GL_NV_vertex_array_range2,
+             GL_ARB_bindless_texture,
+             GL_NV_uniform_buffer_unified_memory ]; 
+    }; 
+    
+    Network = { 
+        Adapter0 ={ 
+            hostname = "suedur;"
+            name = ";"
+            ip = " 10.  0.246. 55"; 
+            subnet = "  0.  0.255.255"; 
+            broadcast = "255.255.255.255"; 
+            mac = "00:00:00:00:00:00"; 
+        }; 
+    }; 
+    
+    
+    }; 
+
+Entering GApp::loadFont("console-small.fnt")
+Found "console-small.fnt" at "C:/Users/mokal/btp/FPSci-bin/font/console-small.fnt"
+Done GApp::loadFont(...)
+Done GApp::GApp()
+
+Found scenes:
+  "FPSci Simple Hallway" (C:\Users\mokal\btp\FPSci-bin/scene/Simple_Hallway.Scene.Any)
+
+-------------------
+Experiment Config
+-------------------
+appendingDescription = aimtrain
+scene name = FPSci Simple Hallway
+Trial Feedback Duration = 0.800000
+Pretrial Duration = 0.500000
+Max Trial Task Duration = 60.000000
+Max Clicks = 10000
+	-------------------
+	Session Config
+	-------------------
+	ID = gridshot
+	Frame Rate = 8192.000000
+	Frame Delay = 0
+		Trial Run Config: IDs = [gridshot_target, gridshot_target, gridshot_target], Count = 1
+	-------------------
+	Session Config
+	-------------------
+	ID = flicks
+	Frame Rate = 8192.000000
+	Frame Delay = 0
+		Trial Run Config: IDs = [flick_target, flick_target], Count = 25
+	-------------------
+	Session Config
+	-------------------
+	ID = microadjust
+	Frame Rate = 8192.000000
+	Frame Delay = 0
+		Trial Run Config: IDs = [micro_target, micro_target, micro_target], Count = 1
+	-------------------
+	Session Config
+	-------------------
+	ID = tracking
+	Frame Rate = 8192.000000
+	Frame Delay = 0
+		Trial Run Config: IDs = [track_target], Count = 1
+	-------------------
+	Target Config
+	-------------------
+	ID = gridshot_target
+	Motion Change Period = [1.000000-1.000000]
+	Min Speed = 0.000000
+	Max Speed = 0.000000
+	Visual Size = [0.033000-0.033000]
+	Upper Hemisphere Only = False
+	Jump Enabled = False
+	Jump Period = [2.000000-2.000000]
+	jumpSpeed = [2.000000-5.500000]
+	Accel Gravity = [9.800000-9.800000]
+	Axis Lock = [false, false, false]
+	-------------------
+	Target Config
+	-------------------
+	ID = flick_target
+	Motion Change Period = [1.000000-1.000000]
+	Min Speed = 0.000000
+	Max Speed = 0.000000
+	Visual Size = [0.030000-0.030000]
+	Upper Hemisphere Only = False
+	Jump Enabled = False
+	Jump Period = [2.000000-2.000000]
+	jumpSpeed = [2.000000-5.500000]
+	Accel Gravity = [9.800000-9.800000]
+	Axis Lock = [false, false, false]
+	-------------------
+	Target Config
+	-------------------
+	ID = micro_target
+	Motion Change Period = [1.000000-1.000000]
+	Min Speed = 0.000000
+	Max Speed = 0.000000
+	Visual Size = [0.018000-0.018000]
+	Upper Hemisphere Only = False
+	Jump Enabled = False
+	Jump Period = [2.000000-2.000000]
+	jumpSpeed = [2.000000-5.500000]
+	Accel Gravity = [9.800000-9.800000]
+	Axis Lock = [false, false, false]
+	-------------------
+	Target Config
+	-------------------
+	ID = track_target
+	Motion Change Period = [0.600000-1.400000]
+	Min Speed = 12.000000
+	Max Speed = 28.000000
+	Visual Size = [0.052000-0.052000]
+	Upper Hemisphere Only = False
+	Jump Enabled = False
+	Jump Period = [2.000000-2.000000]
+	jumpSpeed = [2.000000-5.500000]
+	Accel Gravity = [9.800000-9.800000]
+	Axis Lock = [false, false, false]
+Experiment hash: 3f6402be
+	User ID: anon, sensitivity = 2.820000 deg/mm, mouseDPI = 0
+	User ID: Mokshagna, sensitivity = 1.200000 deg/mm, mouseDPI = 0
+	User ID: ise, sensitivity = 1.200000 deg/mm, mouseDPI = 0
+Failed to open user completed session log!Subject ID: anon
+Session Order: [gridshot, flicks, microadjust, tracking]
+Completed Sessions: []
+Subject ID: Mokshagna
+Session Order: [gridshot, flicks, microadjust, tracking]
+Completed Sessions: []
+Subject ID: ise
+Session Order: [gridshot, flicks, microadjust, tracking]
+Completed Sessions: []
+
+-------------------
+System Info:
+-------------------
+	Hostname: SUEDUR
+	Username: mokal
+	Processor: Intel(R) Core(TM) i7-14700HX
+	Core Count: 28
+	Memory: 16091MB
+	GPU: NVIDIA Corporation NVIDIA GeForce RTX 4060 Laptop GPU/PCIe/SSE2
+	Display: 
+	Display Resolution: 1920 x 1080 (px)
+	Display Size: 344 x 193 (mm)
+
+-------------------
+LDAT-R Config:
+-------------------
+	Logger Present: False
+	Logger COM Port: None
+	Sync Card Present: False
+	Sync COM Port: None
+
+     gridshot_target bounding box: [2.28, 2.40, 2.40]
+        micro_target bounding box: [2.28, 2.40, 2.40]
+           reference bounding box: [2.28, 2.40, 2.40]
+        track_target bounding box: [2.28, 2.40, 2.40]
+        flick_target bounding box: [2.28, 2.40, 2.40]
+
+User selected session: gridshot. Updating now...
+
+
+Found scenes:
+  "FPSci Simple Hallway" (C:\Users\mokal\btp\FPSci-bin/scene/Simple_Hallway.Scene.Any)
+BSPMap reports missing texture #1: "noshader"
+BSPMap reports missing texture #2: "textures/atcs/skybox_s"
+BSPMap reports missing texture #20: "textures/atcs/eq2lt_bmtl03light_300"
+BSPMap reports missing texture #26: "textures/atcs/eq2lt_baselt03b_s_1500"
+BSPMap reports missing texture #36: "textures/atcs/eq2_baselt03_blue_s_3000"
+BSPMap reports missing texture #37: "textures/atcs/eq2lt_baselt03b_blue_s_2000"
+BSPMap reports missing texture #38: "textures/atcs/eq2_baselt03_blue_s_5000"
+BSPMap reports missing texture #39: "textures/atcs/cubelight_32_red_s_20k"
+BSPMap reports missing texture #41: "textures/atcs/eq2lt_baselt03b_blue_s_1500"
+BSPMap reports missing texture #56: "textures/atcs/eq2lt_baselt03b_blue_s_3000"
+BSPMap reports missing texture #57: "textures/atcs/cubelight_32_blue_s_10k"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Created results file: ./results/aimtrain_Mokshagna_3f6402be.db
+
+User selected session: gridshot. Updating now...
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Created results file: ./results/aimtrain_Mokshagna_3f6402be.db
+
+Vertex info
+-----------
+1(39) : warning C7050: "tex0" might be used before being initialized
+1(39) : warning C7050: "tex1" might be used before being initialized
+
+Vertex info
+-----------
+1(39) : warning C7050: "tex0" might be used before being initialized
+1(39) : warning C7050: "tex1" might be used before being initialized
+
+
+Vertex info
+-----------
+1(39) : warning C7050: "tex1" might be used before being initialized
+
+Fragment info
+-------------
+7(127) : warning C7050: "transmissionCoefficient" might be used before being initialized
+
+Fragment info
+-------------
+7(127) : warning C7050: "transmissionCoefficient" might be used before being initialized
+
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+Warning insert rows with empty row value array ignored!
+_____________________________________________________
+
+    ###    Files Used    ###
+
+cudart64_102.dll
+embree.dll
+optix.6.0.0.dll
+tbb.dll
+tbbmalloc.dll
+avcodec-58.dll
+avdevice-58.dll
+avfilter-7.dll
+avformat-58.dll
+avutil-56.dll
+postproc-55.dll
+swresample-3.dll
+swscale-5.dll
+fmod.dll
+C:/Users/mokal/btp/FPSci-bin/cubemap/islands/islands_down.jpg
+C:/Users/mokal/btp/FPSci-bin/cubemap/islands/islands_east.jpg
+C:/Users/mokal/btp/FPSci-bin/cubemap/islands/islands_north.jpg
+C:/Users/mokal/btp/FPSci-bin/cubemap/islands/islands_south.jpg
+C:/Users/mokal/btp/FPSci-bin/cubemap/islands/islands_up.jpg
+C:/Users/mokal/btp/FPSci-bin/cubemap/islands/islands_west.jpg
+C:/Users/mokal/btp/FPSci-bin/cubemap/sponza/sponza-NX.png
+C:/Users/mokal/btp/FPSci-bin/cubemap/sponza/sponza-NY.png
+C:/Users/mokal/btp/FPSci-bin/cubemap/sponza/sponza-NZ.png
+C:/Users/mokal/btp/FPSci-bin/cubemap/sponza/sponza-PX.png
+C:/Users/mokal/btp/FPSci-bin/cubemap/sponza/sponza-PY.png
+C:/Users/mokal/btp/FPSci-bin/cubemap/sponza/sponza-PZ.png
+C:/Users/mokal/btp/FPSci-bin/experimentconfig.Any
+C:/Users/mokal/btp/FPSci-bin/font/arial.fnt
+C:/Users/mokal/btp/FPSci-bin/font/console-small.fnt
+C:/Users/mokal/btp/FPSci-bin/font/dominant.fnt
+C:/Users/mokal/btp/FPSci-bin/font/icon.fnt
+C:/Users/mokal/btp/FPSci-bin/gui/osx-10.7.gtm
+C:/Users/mokal/btp/FPSci-bin/gui/reticle/reticle-039.png
+C:/Users/mokal/btp/FPSci-bin/gui/scoreBannerBackdrop.png
+C:/Users/mokal/btp/FPSci-bin/icon.png
+C:/Users/mokal/btp/FPSci-bin/ifs/d10.ifs
+C:/Users/mokal/btp/FPSci-bin/ifs/square.ifs
+C:/Users/mokal/btp/FPSci-bin/keymap.Any
+C:/Users/mokal/btp/FPSci-bin/log.txt
+C:/Users/mokal/btp/FPSci-bin/material/FPSciBanner.png
+C:/Users/mokal/btp/FPSci-bin/material/LowContrastChecker.UniversalMaterial.Any
+C:/Users/mokal/btp/FPSci-bin/material/bullet-decal-256x256.png
+C:/Users/mokal/btp/FPSci-bin/material/explosion_01.png
+C:/Users/mokal/btp/FPSci-bin/material/low-contrast-checker-huge-1024x1024.png
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/animation.cfg
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/chead.tga
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/clower.tga
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/cupper.tga
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/head.md3
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/head_default.skin
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/lower.md3
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/lower_default.skin
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/upper.md3
+C:/Users/mokal/btp/FPSci-bin/md3/crusader/models/players/Crusader/upper_default.skin
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/maps/atcs.bsp
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/bulb_red_s.tga
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/cubelight_32_blue_s_15k.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/cubelight_32_blue_s_20k.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/cubelight_32_red_s_10k.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/cubelight_32_red_s_15k.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/cubelight_32_white_s_20k.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bigmet_01.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_01.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02_384.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02_384b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_02up.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_03.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_03_blue.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_03_red.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_04.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_05.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bmtl_08.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_bounce.tga
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_fbase.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_fgrate_01.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_floor_04.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_floor_05.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_floor_06b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_grate_01.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_stepside_01.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trim_02.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimh_01.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimh_03c.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimh_03cc.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_00.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_01b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_02.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_04.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_05.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_05b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_09b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_10b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11d.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11d_blue.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_11d_red.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_12b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_mini.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_mini02.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/eq2_trimv_mini02b.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/force_field_s.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/rockground.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/atcs/rust_2.jpg
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/common/caulk.tga
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/common/clip.tga
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/common/slick.tga
+C:/Users/mokal/btp/FPSci-bin/model/atcs/atcs.pk3/textures/common/trigger.tga
+C:/Users/mokal/btp/FPSci-bin/model/sniper/sniper.mtl
+C:/Users/mokal/btp/FPSci-bin/model/sniper/sniper.obj
+C:/Users/mokal/btp/FPSci-bin/model/target/low_poly_sphere.obj
+C:/Users/mokal/btp/FPSci-bin/model/target/sphere.mtl
+C:/Users/mokal/btp/FPSci-bin/scene/Simple_Hallway.Scene.Any
+C:/Users/mokal/btp/FPSci-bin/shader/AlphaFilter.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_AO.pix
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_AO.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_blur.pix
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_blur.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_constants.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_minify.pix
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_minify.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_packBilateralKey.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_reconstructCSZ.pix
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_reconstructCSZ.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/AmbientOcclusion/AmbientOcclusion_sample.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/ArticulatedModel/ArticulatedModel_blitShader.pix
+C:/Users/mokal/btp/FPSci-bin/shader/BumpMap/BumpMap.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/Camera/Camera.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/DDGIVolume/DDGIVolume.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/DefaultRenderer/DefaultRenderer_deferredShade.pix
+C:/Users/mokal/btp/FPSci-bin/shader/Film/Film_FXAA_13_quality.pix
+C:/Users/mokal/btp/FPSci-bin/shader/Film/Film_bloomExpose.pix
+C:/Users/mokal/btp/FPSci-bin/shader/Film/Film_composite.pix
+C:/Users/mokal/btp/FPSci-bin/shader/Film/Film_toneMap.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/GBuffer/GBuffer.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/GFont/GFont_render.pix
+C:/Users/mokal/btp/FPSci-bin/shader/GFont/GFont_render.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/GaussianBlur/GaussianBlur_apply.pix
+C:/Users/mokal/btp/FPSci-bin/shader/GuiTextureBox/GuiTextureBox_2D.pix
+C:/Users/mokal/btp/FPSci-bin/shader/GuiTextureBox/GuiTextureBox_Arrows.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/GuiTheme/GuiTheme_render.pix
+C:/Users/mokal/btp/FPSci-bin/shader/GuiTheme/GuiTheme_render.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/Light/Light.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/LightingEnvironment/LightingEnvironment_LightUniforms.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/LightingEnvironment/LightingEnvironment_environmentMapUniforms.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/LightingEnvironment/LightingEnvironment_uniforms.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/SkyboxSurface/SkyboxSurface_gbuffer.pix
+C:/Users/mokal/btp/FPSci-bin/shader/SkyboxSurface/SkyboxSurface_gbuffer.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/SlowMesh/SlowMesh_render.pix
+C:/Users/mokal/btp/FPSci-bin/shader/SlowMesh/SlowMesh_render.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/TemporalFilter/TemporalFilter_apply.pix
+C:/Users/mokal/btp/FPSci-bin/shader/Texture/Texture.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/Texture/Texture_copy.pix
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalMaterial/UniversalMaterial.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalMaterial/UniversalMaterial_sample.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalMaterial/UniversalMaterial_shade.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalMaterial/UniversalMaterial_writeToGBuffer.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_depthOnly.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_depthOnlyNonOpaque.pix
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_fragmentInputs.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_gbuffer.pix
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_gbuffer.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_render.pix
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_render.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_vertex.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_vertexHelpers.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/UniversalSurface/UniversalSurface_vertexOutputs.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/compatibility.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/default.vrt
+C:/Users/mokal/btp/FPSci-bin/shader/deferredHelpers.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/depthPeel.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/g3dmath.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/lightMap.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/octahedral.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/reconstructFromDepth.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/reverseReprojection.glsl
+C:/Users/mokal/btp/FPSci-bin/shader/unlit.pix
+C:/Users/mokal/btp/FPSci-bin/shader/unlit.vrt
+C:/Users/mokal/btp/FPSci-bin/sound/fpsci_destroy_150ms.wav
+C:/Users/mokal/btp/FPSci-bin/sound/fpsci_ding_100ms.wav
+C:/Users/mokal/btp/FPSci-bin/sound/fpsci_fire_100ms.wav
+C:/Users/mokal/btp/FPSci-bin/sound/fpsci_miss_100ms.wav
+C:/Users/mokal/btp/FPSci-bin/startupconfig.Any
+C:/Users/mokal/btp/FPSci-bin/systemconfig.Any
+C:/Users/mokal/btp/FPSci-bin/userconfig.Any
+C:/Users/mokal/btp/FPSci-bin/userstatus.Any
+

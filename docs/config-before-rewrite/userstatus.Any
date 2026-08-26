@@ -1,0 +1,19 @@
+{ 
+    "currentUser": "Mokshagna", 
+    "sessions": [ "gridshot", "flicks", "microadjust", "tracking"], 
+    "settingsVersion": 1, 
+    "users": [ 
+        { 
+            "id": "anon", 
+            "sessions": [ "gridshot", "flicks", "microadjust", "tracking"]
+        }, 
+        { 
+            "id": "Mokshagna", 
+            "sessions": [ "gridshot", "flicks", "microadjust", "tracking"]
+        }, 
+        { 
+            "id": "ise", 
+            "sessions": [ "gridshot", "flicks", "microadjust", "tracking"]
+        } ]
+    
+} 

@@ -1,0 +1,782 @@
+<title>FPSci Harness Rewrite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root {
+  --ground:      #F1F4F3;
+  --surface:     #FFFFFF;
+  --surface-alt: #E8EDEC;
+  --line:        #CBD5D3;
+  --line-soft:   #DFE6E4;
+  --text:        #16211F;
+  --text-soft:   #4A5B58;
+  --text-faint:  #6E8380;
+  --accent:      #0F5257;
+  --accent-soft: #DCEAEA;
+  --warn:        #8A5300;
+  --ok:          #2C6B4E;
+
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body:    "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono:    "JetBrains Mono", Consolas, "Courier New", monospace;
+
+  --measure: 68ch;
+  --wide: 1120px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #0D1616;
+    --surface:     #142020;
+    --surface-alt: #1B2A29;
+    --line:        #2C3D3B;
+    --line-soft:   #223231;
+    --text:        #DEE8E6;
+    --text-soft:   #A3B5B2;
+    --text-faint:  #7C918E;
+    --accent:      #5FB8BC;
+    --accent-soft: #17312F;
+    --warn:        #D9A245;
+    --ok:          #74C097;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:      #0D1616;
+  --surface:     #142020;
+  --surface-alt: #1B2A29;
+  --line:        #2C3D3B;
+  --line-soft:   #223231;
+  --text:        #DEE8E6;
+  --text-soft:   #A3B5B2;
+  --text-faint:  #7C918E;
+  --accent:      #5FB8BC;
+  --accent-soft: #17312F;
+  --warn:        #D9A245;
+  --ok:          #74C097;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 28px 96px;
+}
+
+.masthead {
+  border-bottom: 2px solid var(--text);
+  padding: 56px 0 22px;
+  margin-bottom: 44px;
+}
+.eyebrow {
+  font-family: var(--f-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 14px;
+}
+h1 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(34px, 5.2vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  margin: 0 0 16px;
+  text-wrap: balance;
+  max-width: 20ch;
+}
+.standfirst {
+  max-width: var(--measure);
+  font-size: 19px;
+  color: var(--text-soft);
+  margin: 0;
+}
+.meta {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+
+section { margin-bottom: 60px; }
+
+h2 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 27px;
+  letter-spacing: -0.014em;
+  line-height: 1.2;
+  margin: 0 0 18px;
+  text-wrap: balance;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+h2 .num {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+h3 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.006em;
+  margin: 36px 0 10px;
+  text-wrap: balance;
+}
+h4 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 28px 0 10px;
+}
+
+p { max-width: var(--measure); margin: 0 0 16px; }
+p.lead { font-size: 18px; color: var(--text-soft); }
+
+ul, ol { max-width: var(--measure); padding-left: 22px; margin: 0 0 16px; }
+li { margin-bottom: 8px; }
+li::marker { color: var(--text-faint); }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+code {
+  font-family: var(--f-mono);
+  font-size: 0.855em;
+  background: var(--surface-alt);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+strong { font-weight: 600; }
+
+.scroll {
+  overflow-x: auto;
+  margin: 0 0 22px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--f-display);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  background: var(--surface-alt);
+}
+td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+td:first-child { color: var(--text); font-weight: 500; }
+tr:last-child td { border-bottom: none; }
+td code, th code { font-size: 12.5px; background: none; padding: 0; }
+td .n { font-family: var(--f-mono); font-size: 12.5px; }
+
+pre {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  line-height: 1.62;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 18px 20px;
+  overflow-x: auto;
+  margin: 0 0 22px;
+  color: var(--text);
+  tab-size: 2;
+}
+pre .c { color: var(--text-faint); }
+
+.decisions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 26px;
+}
+.decision { background: var(--surface); padding: 18px 20px; }
+.decision .k {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  display: block;
+  margin-bottom: 7px;
+}
+.decision .v {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+  display: block;
+  margin-bottom: 6px;
+}
+.decision .why {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  display: block;
+}
+
+.swap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+  margin: 0 0 24px;
+}
+.pane { border: 1px solid var(--line); background: var(--surface); padding: 18px 20px; }
+.pane.now { border-left: 3px solid var(--warn); }
+.pane.next { border-left: 3px solid var(--ok); }
+.pane h5 {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+.pane.now h5 { color: var(--warn); }
+.pane.next h5 { color: var(--ok); }
+.pane ul { max-width: none; font-size: 15px; margin-bottom: 0; padding-left: 18px; }
+.pane li { margin-bottom: 6px; }
+
+.note {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 16px 20px;
+  margin: 0 0 22px;
+  max-width: var(--measure);
+}
+.note p { margin: 0; font-size: 15.5px; max-width: none; }
+.note p + p { margin-top: 10px; }
+.note .tag {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.phase {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 0 22px;
+  border-top: 1px solid var(--line-soft);
+  padding: 22px 0;
+}
+.phase:last-of-type { border-bottom: 1px solid var(--line-soft); }
+.phase .idx {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--accent);
+  padding-top: 4px;
+}
+.phase .idx .est {
+  display: block;
+  color: var(--text-faint);
+  margin-top: 5px;
+}
+.phase .idx .state {
+  display: inline-block;
+  margin-top: 7px;
+  font-size: 10px;
+  font-family: var(--f-display);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ok);
+  border: 1px solid var(--ok);
+  padding: 1px 5px;
+}
+.phase.complete { opacity: 0.72; }
+.phase h3 { margin: 0 0 8px; font-size: 18px; }
+.phase p { max-width: 62ch; }
+.phase p:last-child { margin-bottom: 0; }
+.done {
+  font-family: var(--f-display);
+  font-size: 13.5px;
+  color: var(--text-soft);
+  border-left: 2px solid var(--ok);
+  padding: 4px 0 4px 14px;
+  margin-top: 12px;
+  max-width: 62ch;
+}
+.done b {
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ok);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.footnote {
+  font-size: 14.5px;
+  color: var(--text-faint);
+  max-width: var(--measure);
+  border-top: 1px solid var(--line-soft);
+  padding-top: 16px;
+  margin-top: 40px;
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .wrap { padding: 0 18px 64px; }
+  .phase { grid-template-columns: 1fr; gap: 10px; }
+}
+</style>
+
+<div class="wrap">
+
+<header class="masthead">
+  <p class="eyebrow">Implementation plan &middot; all six phases done &middot; one sitting from proven</p>
+  <h1>FPSci Harness Rewrite</h1>
+  <p class="standfirst">Rebuilding everything around the aim-training binary: one database per run, a submit gate the player controls, and CSVs sorted by scenario and person. The four scenarios themselves do not change.</p>
+  <div class="meta">
+    <span>Updated 21 Aug 2026</span>
+    <span>Stock FPSci v23.04.01</span>
+    <span>Scope: harness only</span>
+    <span>Next: play a sitting with the strap on</span>
+  </div>
+</header>
+
+<section>
+  <h2><span class="num">&sect; 0</span>Decisions locked</h2>
+  <div class="decisions">
+    <div class="decision">
+      <span class="k">Scope</span>
+      <span class="v">Harness only</span>
+      <span class="why">Keep <code>FirstPersonScience.exe</code> and the scenario definitions exactly as they are. Rewrite the config, the launcher, the exporter and the layout around it.</span>
+    </div>
+    <div class="decision">
+      <span class="k">CSV layout</span>
+      <span class="v">Scenario &rarr; person &rarr; grain</span>
+      <span class="why">A directory per scenario, a directory per person inside it, one file per grain so no file mixes two row types.</span>
+    </div>
+    <div class="decision">
+      <span class="k">Export trigger</span>
+      <span class="v">Player submits the run</span>
+      <span class="why">A Yes/No prompt at the end of every run. Yes exports it; No keeps the raw recording but leaves it out of the analysis tables.</span>
+    </div>
+    <div class="decision">
+      <span class="k">Warm-up condition</span>
+      <span class="v">Re-selectable dropdown</span>
+      <span class="why">Set in the launcher before playing, changeable at any point between runs &mdash; the same feel as the scenario dropdown, not a one-shot prompt.</span>
+    </div>
+  </div>
+  <p>Everything below follows from those four. Where a decision has a consequence you might not want, it is called out rather than buried.</p>
+</section>
+
+<section>
+  <h2><span class="num">&sect; 1</span>Why the saving feels wrong</h2>
+
+  <p class="lead">The post-game behaviour is not a collection of small quirks. It is one config line, and roughly a dozen workarounds built on top of it.</p>
+
+  <h3>One line disables the entire end-of-session path</h3>
+
+  <p><code>sessionFeedbackDuration: 86400.0</code> keeps scenarios from vanishing off the menu, but it does that by making the completion block at <code>Session.cpp:696&ndash;745</code> unreachable. That block is where FPSci does all of its end-of-session work:</p>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>What is dead</th><th>Where</th><th>Consequence you are living with</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>endLogging()</code></td><td class="n">Session.cpp:720</td><td>Nothing is flushed when a run ends. Data becomes durable only when the next session replaces the Session object, or on a clean quit.</td></tr>
+        <tr><td><code>commandsOnSessionEnd</code></td><td class="n">Session.cpp:733</td><td>Unusable &mdash; which forced the CSV parse onto <code>commandsOnSessionStart</code>, so it always parses the <em>previous</em> run.</td></tr>
+        <tr><td><code>markSessComplete</code></td><td class="n">Session.cpp:724</td><td><code>Sessions.complete</code> is always 0. No run is ever recorded as finished.</td></tr>
+        <tr><td>Session-level questions</td><td class="n">Session.cpp:697</td><td>Forced the warm-up prompt down to a task question, asked after the run instead of before it.</td></tr>
+        <tr><td><code>saveUserConfig(true)</code></td><td class="n">Session.cpp:729</td><td>Sensitivity and user state are not persisted at the natural moment.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Every batch file in <code>FPSci-bin/</code> exists to paper over one of those five rows. <code>play.bat</code> waits for the process to exit because nothing flushes on its own. <code>userstatus.sessions.csv</code> is emptied and marked read-only because <code>markSessComplete</code> was the thing hiding scenarios. <code>parse_results.bat</code> carries a lock file and a stale-lock sweeper because it runs at the wrong end of the run.</p>
+
+  <div class="note">
+    <span class="tag">The unlock</span>
+    <p><code>UserStatusTable</code> has an <code>allowRepeat</code> flag, default <code>false</code> (<code>UserStatus.h:23</code>). With it on, <code>GuiElements.cpp:668&ndash;675</code> removes a completed session from the dropdown <strong>one entry at a time</strong> instead of removing every match. List <code>gridshot</code> fifty times in a participant's session array and it stays on the menu for fifty plays.</p>
+    <p>That is FPSci's own mechanism for repeated sessions. Turning it on lets <code>sessionFeedbackDuration</code> go back to a couple of seconds, which brings all five dead rows back to life and makes the entire workaround stack unnecessary.</p>
+  </div>
+
+  <h3>Nothing is durable until you leave</h3>
+
+  <p>Trial rows, question answers and target metadata sit in the same 1&nbsp;MB queue as per-frame data (<code>Logger.h:40&ndash;56</code>). At the measured data rate that queue fills roughly every fifteen seconds. Alt-F4, a crash, or killing the process from Task Manager loses the run you just played &mdash; not merely its tail, because the <code>Trials</code> row and the warm-up answer are queued alongside everything else.</p>
+
+  <h3>The parse does not scale, and runs at the wrong moment</h3>
+
+  <p>Measured on the current pilot data: <strong>13.5 seconds</strong> to copy 72&nbsp;MB of databases to <code>%TEMP%</code> and re-derive every metric from scratch. It is O(all data ever recorded) and it fires when you <em>start</em> a scenario &mdash; so it runs concurrently with the opening seconds of your next run. At roughly 7&ndash;12&nbsp;MB per sixty-second run, a twenty-participant study is a few gigabytes and a multi-minute parse on every single scenario selection.</p>
+
+  <h3>Three smaller defects worth fixing while we are here</h3>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Defect</th><th>Evidence</th><th>Fix</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Experiments</code> empty in all 8 databases</td>
+          <td>The config file is spliced into SQL inside single quotes with no escaping (<code>Logger.cpp:115&ndash;121</code>) and your comments contain 10 apostrophes, so the INSERT is malformed. <code>correlate.py:159</code> reads that table and silently gets nothing.</td>
+          <td>Remove apostrophes from config comments. This becomes load-bearing in the new design &mdash; see &sect;2.2.</td>
+        </tr>
+        <tr>
+          <td><code>frameRate</code> override never applied <em>(resolved)</em></td>
+          <td>Config asked for 8192; every <code>Sessions</code> row logged 1000, the built-in default. Rewriting it as <code>8192.0</code> changed nothing &mdash; the shipped binary does not pick the key up in either form. The same field feeds both the log and <code>updateFrameParameters</code>, so rendering was getting 1000 too.</td>
+          <td><strong>Key removed from the config.</strong> A 1000&nbsp;Hz target is already an unlocked budget and the measured rate is ~477&nbsp;Hz, GPU-bound. The logged 1000 is now the truth rather than a discrepancy someone re-investigates every time they read the results.</td>
+        </tr>
+        <tr>
+          <td><code>targets.csv</code> undercounts respawns</td>
+          <td><code>gridshot_target</code> has <code>respawnCount: -1</code>, and FPSci writes one <code>Targets</code> row per entity, not per respawn. A 60&nbsp;s run with 67 kills produces 3 rows, and <code>time_to_kill_s</code> describes only the first kill.</td>
+          <td>Document the limitation. Per-shot error metrics are unaffected; per-kill eccentricity for gridshot and microadjust simply is not available from the stock binary.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">&sect; 2</span>The new shape</h2>
+
+  <h3>2.1 &nbsp;Sessions complete normally again</h3>
+
+  <div class="swap">
+    <div class="pane now">
+      <h5>Now</h5>
+      <ul>
+        <li><code>sessionFeedbackDuration: 86400</code></li>
+        <li>Run ends on a dead-end screen you leave with Esc</li>
+        <li>Warm-up dropdown fires after the run, as a task question</li>
+        <li>Parse fires when the <em>next</em> run starts</li>
+        <li>Two launch paths with different data guarantees</li>
+      </ul>
+    </div>
+    <div class="pane next">
+      <h5>Next</h5>
+      <ul>
+        <li><code>sessionFeedbackDuration: 2.0</code> plus <code>allowRepeat: true</code></li>
+        <li>Score screen, then a Yes/No submit prompt, then the menu</li>
+        <li>Warm-up is already known &mdash; set in the launcher before play</li>
+        <li>Export happens after the run it belongs to</li>
+        <li>One launch path: <code>run_study.py</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2.2 &nbsp;One database per run</h3>
+
+  <p>Setting <code>logToSingleDb: false</code> makes FPSci name each results file <code>&lt;scenario&gt;_&lt;user&gt;_&lt;UTC timestamp&gt;.db</code>. That single change buys four things at once:</p>
+
+  <ul>
+    <li>The filename already encodes scenario, person and time &mdash; the exact keys the new folder layout needs.</li>
+    <li>Export becomes incremental. One finished run is one small file, parsed in well under a second, instead of a full rescan.</li>
+    <li>A crash can damage at most one run.</li>
+    <li><code>correlate.py</code>'s "newest database" becomes precisely "the run you just played", rather than a shared file containing every run you have ever done.</li>
+  </ul>
+
+  <p>The cost is that the config hash leaves the filename, so provenance moves into the <code>Experiments</code> table &mdash; which is exactly why the apostrophe fix in &sect;1 stops being cosmetic. With it repaired, every run's database carries the full config text and its hash. Confirmed on the Phase 1 runs: 30,139 bytes of config, hash <code>0x404f74c6</code>.</p>
+
+  <div class="note">
+    <span class="tag">Discovered in Phase 1</span>
+    <p>A database is opened the moment a scenario is <em>selected</em>, not when a run starts. Browsing the menu therefore leaves stub files behind &mdash; the two verification runs produced <strong>six</strong> databases, four of them stubs of 0.1&ndash;0.5&nbsp;MB. Under the old single-database setup these were the harmless zero-trial rows in <code>Sessions</code>; now they are files.</p>
+    <p>Classification has to be on gameplay, not on the <code>Trials</code> count alone, because those two cases are different: a stub has <strong>zero</strong> <code>trialTask</code> frames, while a run abandoned mid-trial has thousands and no <code>Trials</code> row. The first is disposable, the second is real data that needs looking at. The exporter sorts them; stubs go to <code>results/_stubs/</code> rather than being deleted, since raw data is never destroyed.</p>
+  </div>
+
+  <h3>2.3 &nbsp;Where the files live</h3>
+
+  <pre><span class="c"># raw, immutable, one file per run - never edited, never deleted</span>
+FPSci-bin/results/
+  gridshot_Mokshagna_2026_08_21-20_36_44.db
+  tracking_Mokshagna_2026_08_21-20_41_02.db
+  archive_2026-08-21_pilot/        <span class="c">everything recorded before the rewrite</span>
+
+<span class="c"># derived, reproducible from results/ by one command</span>
+analysis/
+  gridshot/
+    mokshagna/
+      runs.csv        <span class="c">1 row per run - the headline table</span>
+      trials.csv
+      shots.csv
+      targets.csv
+    ise/
+      ...
+  flicks/
+  microadjust/
+  tracking/
+
+  _index/
+    runs.csv          <span class="c">every run across all people and scenarios</span>
+    participants.csv  <span class="c">id, display name, slug, mouse DPI, deg/mm</span>
+    sittings.csv      <span class="c">warm-up condition per sitting, written by the launcher</span>
+  _discarded/         <span class="c">runs the player answered "No" to, same tree shape</span>
+  _pending/           <span class="c">runs with no submit answer - crashed or walked away</span>
+</pre>
+
+  <p>The rule is the one the sensors side already follows: <code>results/</code> is raw and never modified, <code>analysis/</code> is entirely derived and can be deleted and rebuilt at any time. Nothing is ever only in a CSV.</p>
+
+  <h3>2.4 &nbsp;The submit gate</h3>
+
+  <p>A session-level question, which becomes reachable again the moment &sect;2.1 lands:</p>
+
+  <pre>"questions": [
+    {
+        "type": "MultipleChoice",
+        "prompt": "Submit this run?",
+        "title": "Submit",
+        "options": [ "Yes", "No" ],
+        "optionKeys": [ "y", "n" ],
+        "randomOrder": false
+    }
+]</pre>
+
+  <div class="note">
+    <span class="tag">Watch this one</span>
+    <p><code>randomOrder</code> defaults to <strong>true</strong> for MultipleChoice questions (<code>FpsConfig.cpp:703&ndash;707</code>). Without setting it false, Yes and No swap places between runs &mdash; a genuinely dangerous default for a submit button. <code>optionKeys</code> also lets the answer be given with <code>Y</code> or <code>N</code>, so the player never has to find the mouse.</p>
+  </div>
+
+  <p>The exporter reads the answer from the <code>Questions</code> table and routes accordingly: <strong>Yes</strong> into the person's tables, <strong>No</strong> into <code>_discarded/</code>, <strong>no answer at all</strong> into <code>_pending/</code>. Because <code>presentQuestions</code> gates session completion, an unanswered prompt also means the session never completes &mdash; so an abandoned run correctly stays on the menu to be replayed.</p>
+
+  <div class="note">
+    <span class="tag">Discovered in Phase 1</span>
+    <p><code>Questions.response</code> stores the option label <em>as displayed</em>, so with <code>optionKeys</code> set it reads <code>"Yes (Y)"</code>, not <code>"Yes"</code>. Do not match on it directly. The row also carries <code>presented_responses</code> and <code>response_array</code>, so the clean answer is recovered by finding the response in the first and taking the same index from the second &mdash; which stays correct even if options are ever shown in random order.</p>
+    <p>This single field decides whether a run reaches the analysis tables, so the exporter must treat anything it cannot map as <em>unanswered</em> and route to <code>_pending/</code> rather than guessing.</p>
+  </div>
+
+  <p>One consequence to decide on: answering <em>No</em> still consumes one slot from the repeat quota. The simple answer is to set the quota generously (50 per scenario) so it never binds, and treat <code>userstatus.sessions.csv</code> as a progress log rather than a limit.</p>
+
+  <h3>2.5 &nbsp;The warm-up dropdown</h3>
+
+  <p>The launcher holds a small always-available control panel with the participant and the warm-up condition. The condition is a dropdown, changeable at any time between runs, and every run is stamped with whatever is selected when that run starts. It is written into <code>_index/sittings.csv</code> the instant a new database appears, so it can never be lost to a crash and never has to be re-answered per run.</p>
+
+  <div class="note">
+    <span class="tag">Trade-off</span>
+    <p>The dropdown lives in the launcher window, not next to the scenario dropdown inside the game. FPSci has no configuration hook for adding a menu control, so an in-game version would require building a patched binary &mdash; the option you set aside. In practice this means alt-tabbing when you want to change condition, which is an experimenter action between sittings rather than something the player does. If it turns out to grate, adding a real in-game dropdown is a contained C++ change we can revisit.</p>
+  </div>
+
+  <h3>2.6 &nbsp;What does not get rewritten</h3>
+
+  <p>Two things are already right and should survive intact. The <strong>scenario definitions</strong> &mdash; targets, eccentricities, timings, weapons &mdash; carry over unchanged; only the logging and session-lifecycle keys around them move.</p>
+
+  <p>The <strong>metrics engine</strong> in <code>fpsci_parse.py</code> is the most valuable code in the project: correct spherical geometry, a fixed 10&nbsp;ms velocity window that survives a 470&nbsp;Hz frame rate, per-frame angular radius from true camera distance, submovement detection. Rewriting it would be throwing away the hard part. It gets refactored from a CLI script into an importable module with its behaviour pinned by a test, and the new exporter calls into it.</p>
+</section>
+
+<section>
+  <h2><span class="num">&sect; 3</span>What gets built</h2>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Replaces</th><th>Responsibility</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>app/run_study.py</code></td>
+          <td><code>play.bat</code>, <code>reset_sessions.bat</code></td>
+          <td>Participant picker and warm-up dropdown. Generates <code>userstatus.Any</code> and <code>userconfig.Any</code> from templates, launches FPSci, watches <code>results/</code>, stamps each new run with the current condition, exports finished runs, sweeps once on exit.</td>
+        </tr>
+        <tr>
+          <td><code>app/export.py</code></td>
+          <td><code>parse_results.bat</code></td>
+          <td>Turns one database &mdash; or all of them, with <code>--rebuild</code> &mdash; into the per-scenario, per-person tables. Classifies run vs stub vs abandoned, decodes the submit answer through <code>presented_responses</code>, joins the sitting manifest, maintains <code>_index/</code>. Idempotent, tracked by a state file keyed on database name and size. The classification and decode logic already exists in <code>app/check_phase1.py</code> and lifts straight out.</td>
+        </tr>
+        <tr>
+          <td><code>app/fpsci_metrics/</code></td>
+          <td><code>fpsci_parse.py</code> (CLI)</td>
+          <td>The same geometry and metric code, importable rather than executable, with the output layer removed. A golden test against the archived pilot databases proves the refactor changed no numbers.</td>
+        </tr>
+        <tr>
+          <td><code>app/config/*.Any</code></td>
+          <td>Hand-edited files in <code>FPSci-bin/</code></td>
+          <td>Version-controlled templates. The launcher renders them into <code>FPSci-bin/</code> at start, so the files the game reads are disposable and the source of truth is not. Phase 1 proved this necessary rather than merely tidy: now that sessions complete, <code>saveUserConfig</code> runs and <strong>FPSci rewrites <code>userstatus.Any</code> itself</strong>, stripping every comment. Documentation cannot live in a file the game owns.</td>
+        </tr>
+        <tr>
+          <td><code>_index/participants.csv</code></td>
+          <td>Free-typed in-game user IDs</td>
+          <td>The registry: canonical id, display name, filesystem slug, mouse DPI and deg/mm. Stops a typo in the New User box from creating a second person.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">&sect; 4</span>Config changes, exactly</h2>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>Key</th><th>Now</th><th>New</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>sessionFeedbackDuration</code></td><td class="n">86400.0</td><td class="n">2.0</td><td>Re-opens the end-of-session block</td></tr>
+        <tr><td><code>allowRepeat</code> <span class="n">(userstatus)</span></td><td class="n">absent &rarr; false</td><td class="n">true</td><td>One-for-one dropdown removal keeps scenarios available</td></tr>
+        <tr><td><code>users[].sessions</code></td><td>4 ids, once each</td><td>each id &times; 50</td><td>The repeat quota, generous so it never binds</td></tr>
+        <tr><td><code>logToSingleDb</code></td><td class="n">true</td><td class="n">false</td><td>One database per run</td></tr>
+        <tr><td><code>commandsOnSessionStart</code></td><td>runs <code>parse_results.bat</code></td><td>removed</td><td>The launcher supervises instead</td></tr>
+        <tr><td><code>tasks[].questions</code></td><td>warm-up DropDown</td><td>removed</td><td>Warm-up moves to the launcher</td></tr>
+        <tr><td><code>sessions[].questions</code></td><td>&mdash;</td><td>Submit Yes/No</td><td>The submit gate</td></tr>
+        <tr><td><code>frameRate</code></td><td class="n">8192</td><td>key removed</td><td>Proven inert in this binary, in both integer and float form</td></tr>
+        <tr><td>config comments</td><td>10 apostrophes</td><td>none</td><td>Unbreaks the <code>Experiments</code> insert</td></tr>
+        <tr><td><code>userstatus.sessions.csv</code></td><td>empty, read-only</td><td>writable</td><td>Becomes a real progress log again</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Unchanged: every scenario block, every target definition, <code>logOnChange: false</code>, all four <code>log*</code> switches, the immobilised player, and the reticle and menu settings.</p>
+</section>
+
+<section>
+  <h2><span class="num">&sect; 5</span>Build order</h2>
+
+  <p class="lead">Each phase ends somewhere safe. Phase 1 alone already fixes the weirdness you noticed, before any new code exists.</p>
+
+  <div class="phase complete">
+    <div class="idx">Phase 0<span class="est">~30 min</span><span class="state">Done</span></div>
+    <div>
+      <h3>Freeze the pilot data</h3>
+      <p>Archived the two live databases with the configs that produced them, verified they still parsed (6 runs, 30 trials, 2452 shots, 15 sessions in 13.1&nbsp;s), then <strong>deleted all 169&nbsp;MB of pilot recordings</strong> at your request. The config snapshot survives at <code>docs/config-before-rewrite/</code> &mdash; 12 files, 105&nbsp;KB &mdash; because it is the revert path for Phase 1 and is not itself data.</p>
+      <p>FPSci had already exited cleanly: no journal or WAL files, and the last run's trial row and warm-up answer both landed.</p>
+      <div class="done"><b>Done</b> <code>FPSci-bin/results/</code> is empty. Next run starts on a clean slate.</div>
+    </div>
+  </div>
+
+  <div class="phase complete">
+    <div class="idx">Phase 1<span class="est">~1 h</span><span class="state">Done</span></div>
+    <div>
+      <h3>Flip the config</h3>
+      <p>All of &sect;4 applied. A comment-stripped diff of <code>experimentconfig.Any</code> against the backup shows <strong>only</strong> the intended changes &mdash; every target definition, weapon, eccentricity and timing is byte-identical, so scenario behaviour is untouched.</p>
+      <p>Two things went beyond the original plan. <code>play.bat</code>, <code>parse_results.bat</code> and <code>reset_sessions.bat</code> were deleted early (they are Phase 5 work) because <code>play.bat</code> re-applies the read-only hack to <code>userstatus.sessions.csv</code> on every launch, which would silently undo the <code>allowRepeat</code> quota. Copies are in <code>docs/config-before-rewrite/</code>. And the apostrophe rule is now documented as a loud warning in the config header, since it is the only thing standing between you and an empty <code>Experiments</code> table.</p>
+      <p><strong>Launch <code>FirstPersonScience.exe</code> directly</strong> until the launcher exists in Phase 4.</p>
+      <div class="done"><b>Verified</b> 13 checks over 2 runs, 0 failures. Both runs: per-run filename, <code>complete = 1</code>, <code>end_time</code> advanced, trials recorded (1 and 25), submit answer captured (one Yes, one No), and <code>Experiments</code> populated with 30,139 bytes of config &mdash; the apostrophe fix worked. Two completions logged to <code>userstatus.sessions.csv</code>, and every scenario stayed on the menu.</div>
+      <p>Three things the runs taught us that the plan did not anticipate &mdash; all folded into &sect;3 and &sect;6 below: menu navigation now leaves stub databases behind, the submit answer is stored as its displayed label, and FPSci rewrites <code>userstatus.Any</code> on every session end.</p>
+    </div>
+  </div>
+
+  <div class="phase complete">
+    <div class="idx">Phase 2<span class="est">~2&ndash;3 h</span><span class="state">Done</span></div>
+    <div>
+      <h3>Metrics engine becomes a module</h3>
+      <p><code>app/fpsci_metrics/</code> is now an importable package of eight modules &mdash; config, geometry, results, sessions, trial, aggregate, questions, csvio. <code>analyse("FPSci-bin/results")</code> returns a <code>MetricSet</code> of runs, trials, shots, targets and sessions, and writes nothing: where rows go is the exporter's decision, not the engine's.</p>
+      <p><code>analyse_trial</code> and the aggregation functions were extracted <strong>verbatim</strong> from the original by script rather than retyped, and the extraction was itself verified line-by-line against the source range. Only imports moved. <code>fpsci_parse.py</code> stays untouched as the reference implementation.</p>
+      <p>The decode helper written during Phase 1 verification moved into <code>questions.py</code>, so <code>check_phase1.py</code> and the future exporter share one implementation of the rule that <code>Questions.response</code> is a displayed label rather than an option.</p>
+      <div class="done"><b>Verified</b> <code>python app/tests/test_golden.py</code> &mdash; all 5 tables byte-identical over 6 databases (2 runs, 26 trials, 181 shots). Byte-for-byte rather than value-by-value, so it catches a moved column or a differently-formatted float, not just a changed number.</div>
+    </div>
+  </div>
+
+  <div class="phase complete">
+    <div class="idx">Phase 3<span class="est">~2&ndash;3 h</span><span class="state">Done</span></div>
+    <div>
+      <h3>The exporter</h3>
+      <p><code>app/export.py</code>. One database in, per-scenario and per-person rows out: it classifies run vs stub vs abandoned, decodes the submit answer, joins the sitting manifest for the warm-up label, slugifies the person through the registry, merges into the four grain files and updates <code>_index/</code>. <code>--rebuild</code>, <code>--sweep-stubs</code> and <code>--dry-run</code> are there.</p>
+      <p>Run numbers come from <code>_index/runs.csv</code>, not from the metric engine. The engine numbers sessions across whatever databases it was handed, which is only right when it is handed all of them &mdash; without this, exporting one new run would renumber it as that person's first.</p>
+      <p>Files are merged rather than appended: a re-export replaces a run's rows instead of duplicating them, a run introducing a new column cannot corrupt the file, and output is sorted so a rebuild is reproducible. At a few tens of thousands of rows, rewriting is cheaper than the bookkeeping needed to avoid it.</p>
+      <div class="done"><b>Verified</b> <code>test_export.py</code>: 16 checks over all three routing paths, including a missing and a garbled submit answer &mdash; both correctly become <code>_pending/</code> rather than being guessed. Separately confirmed on the real tree: re-running changes nothing, <code>--rebuild</code> twice is byte-identical, and an incremental export produces the same tree as a full rebuild.</div>
+    </div>
+  </div>
+
+  <div class="phase complete">
+    <div class="idx">Phase 4<span class="est">~3&ndash;4 h</span><span class="state">Built</span></div>
+    <div>
+      <h3>The launcher</h3>
+      <p><code>python app/run_study.py</code>. A Tk control panel with the participant and the warm-up dropdown, a preflight gate, config generation, process launch, and a watcher that exports each run seconds after it finishes with a final sweep when the game closes.</p>
+      <p>The warm-up dropdown stays live for the whole sitting. Changing it closes the open stretch in <code>_index/sittings.csv</code> and opens a new one, so each run is attributed by <em>when it was played</em> rather than by anything the player has to remember. The exporter already joined on those windows, tested since Phase 3.</p>
+      <p><strong>Preflight replaced config templating.</strong> The plan had the launcher render <code>experimentconfig.Any</code> from a version-controlled master, which would have silently reverted any hand edit. It instead regenerates only the two participant-dependent files and <em>checks</em> the experiment config &mdash; seven checks, one per thing that actually went wrong during this rewrite. A problem blocks the launch and says why. Catching a regression is worth more than owning the file.</p>
+      <div class="done"><b>Verified</b> 24 checks in <code>test_launcher.py</code>: every preflight check fires on a config that breaks it, generated configs parse and match the shape FPSci itself writes, sitting stretches do not overlap and resolve to the right condition, and the watcher holds back the database FPSci has open while releasing it once the game exits. Still to confirm by playing: the panel driving a real sitting end to end.</div>
+    </div>
+  </div>
+
+  <div class="phase complete">
+    <div class="idx">Phase 5<span class="est">~1 h</span><span class="state">Done</span></div>
+    <div>
+      <h3>Retire the old path</h3>
+      <p>The batch files and the old <code>analysis/</code> tree went in Phase 1, so this was documentation &mdash; except it was not. Chasing the doc updates surfaced a functional break on the sensor side.</p>
+      <p><strong>One sitting is now several databases, and <code>correlate.py</code> only read one.</strong> It picked the newest <code>.db</code>, which under per-run databases means a four-scenario sitting would have been joined against its <em>last run alone</em> &mdash; silently, with a plausible-looking result. It now selects every database whose gameplay falls inside the recording window and merges them; a menu stub has no trial span and drops out without a special case. <code>--fpsci-db</code> still pins it explicitly and is now repeatable.</p>
+      <p><strong>The metric engine was opening raw databases read-write.</strong> Inherited verbatim from the original parser, which got away with it by working on copies. <code>export.py</code> and <code>correlate.py</code> both open read-only and say why; the engine now does too. Verified: a full <code>--rebuild</code> leaves every raw database byte-identical and no journal file behind.</p>
+      <p>Docs rewritten: a new top-level README, the sensor README and capture checklist now start from <code>run_study.py</code>, and the correlation guide gained a section on per-run databases. The stale <code>Experiments</code>-is-empty caveat became a dated historical note.</p>
+      <div class="done"><b>Verified</b> 11 new checks in <code>sensors/tests/test_multi_db.py</code>, including the contrast that makes the bug concrete: one database yields 1 trial where the sitting holds 8. Six suites green across both halves of the project.</div>
+    </div>
+  </div>
+
+  <div class="phase complete">
+    <div class="idx">Phase 6<span class="est">~2 h</span><span class="state">Done</span></div>
+    <div>
+      <h3>Fold the heart-rate join in</h3>
+      <p><code>correlate.py</code> counted shots and computed accuracy itself while the exporter computed it from the metric engine. Two implementations of one quantity is how a thesis ends up with two different accuracies for the same trial. It now imports <code>app/fpsci_metrics</code> and derives every aim number through it, attaching physiology over the same window. <code>count_events</code> and <code>subject_for</code> are gone.</p>
+      <p>The join got richer rather than thinner. <code>trials_hr.csv</code> now carries reaction time, angular error, time on target, path efficiency, submovements and peak velocity beside HR and RMSSD, and <code>sessions_hr.csv</code> became one row per <strong>run</strong> &mdash; the analysis unit &mdash; carrying the warm-up condition, the aim metrics and the physiology together. Run-level rates come from the engine, which recomputes them from run totals rather than averaging across trials, so <code>flicks</code> with its 25 short pair-trials is not skewed.</p>
+      <p>The warm-up label is joined from the launcher manifest through <code>export.warmup_for</code> &mdash; the same function the exporter uses, not a second copy of the rule.</p>
+      <div class="done"><b>Verified</b> <code>sensors/tests/test_shared_metrics.py</code> runs both consumers over the same databases and diffs every shared column: 8 metrics across 6 trials plus the run rollup, all exact. Trial accuracy now has exactly one implementation, at <code>fpsci_metrics/trial.py:166</code>. Seven suites green across both halves.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">&sect; 6</span>What stays broken, and open questions</h2>
+
+  <h4>Accepted, because scope is harness-only</h4>
+  <ul>
+    <li><strong>The durability window.</strong> Data is still queued in-process until 1&nbsp;MB accumulates. Per-run databases shrink the blast radius to a single run, and the exporter can flag any database with no <code>Trials</code> row, but a hard kill still loses that run. Quitting through the menu remains the rule.</li>
+    <li><strong>A race in the logger.</strong> <code>addToQueue</code> reads the queue sizes outside the mutex it just released (<code>Logger.h:70&ndash;82</code>), so the size check races the writer thread. Upstream bug, no observed impact, unfixable without building.</li>
+    <li><strong>Per-kill data in respawning scenarios.</strong> As in &sect;1 &mdash; one <code>Targets</code> row per entity, not per respawn.</li>
+    <li><strong>The warm-up dropdown is not in-game.</strong> See &sect;2.5.</li>
+  </ul>
+
+  <h4>Needs your call, but not blocking</h4>
+  <ul>
+    <li><strong>How many runs per scenario per participant does the protocol actually need?</strong> If it is a fixed number, the repeat quota should be that number rather than 50, and the menu emptying becomes a useful "you are done" signal.</li>
+    <li><strong>Should raw data move to a shared root?</strong> The sensors side already uses <code>data/raw</code> and <code>data/processed</code>. Putting FPSci databases under the same convention would unify the two halves, at the cost of a path change in every script. Easy now, annoying later.</li>
+    <li><strong>Should the exporter re-check <code>_pending/</code>?</strong> A run with no submit answer might deserve a prompt in the launcher next time it starts, rather than sitting unnoticed.</li>
+  </ul>
+
+  <p class="footnote">All line references are against the checked-out source at <code>FPSci/</code> (v23.04.01-7-gd5dcea0), which matches the shipped binary. Timings and row counts were measured on the current pilot data on 21 Aug 2026.</p>
+</section>
+
+</div>

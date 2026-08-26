@@ -1,0 +1,591 @@
+// =====================================================================
+//  FPSci aim-training experiment: 4 scenarios, modelled on Aim Labs
+//    1. gridshot     - Gridshot Ultimate  (3 static targets, 60 s, respawning)
+//    2. flicks       - Spidershot-style   (one static target, whole screen, snap)
+//    3. microadjust  - Microshot-style    (3 small STATIC targets, precision)
+//    4. tracking     - Spheretrack-style  (1 moving target, hold LMB beam, 60 s)
+//
+//  Aim Labs does not publish its internal target sizes/speeds, so the numbers
+//  below reproduce the documented *behaviour* of each task (duration, target
+//  count, static vs moving, click vs beam) at sensible angular sizes rather
+//  than claiming to be exact clones.
+//
+//  Pick the scenario from the in-app menu (TAB/ESC) "Session" dropdown.
+//
+//  Each run writes its OWN database: ./results/<scenario>_<user>_<UTC>.db.
+//  At the end of a run you are asked "Submit this run?" -- answering Yes is what
+//  sends it to the CSVs. The launcher (app/run_study.py) watches ./results and
+//  does the export; nothing in this file shells out to a parser any more.
+//
+//  !!  NEVER PUT AN APOSTROPHE IN THIS FILE, NOT EVEN IN A COMMENT  !!
+//
+//  On creating a results database FPSci copies this whole file into the
+//  Experiments table, and Logger.cpp:115-121 builds that INSERT by wrapping the
+//  raw text in single quotes with NO escaping. One apostrophe anywhere makes the
+//  statement malformed, the insert fails, and the failure is silent -- the table
+//  is simply left empty. Every database recorded before 2026-08-21 has an empty
+//  Experiments table for exactly this reason.
+//
+//  That table is now the ONLY record of which config produced a run, because
+//  logToSingleDb is false and the config hash is no longer in the filename.
+//  Check it after any edit here:
+//      sqlite3 results/<newest>.db "select count(*) from Experiments"   -> 1
+// =====================================================================
+{
+    "description": "aimtrain",
+    "settingsVersion": 1,
+    "scene": { "name": "FPSci Simple Hallway" },
+    "closeOnComplete": false,
+
+    // ---------------- Logging: capture everything the parser needs ----------------
+    "logEnable": true,
+    "logTargetTrajectories": true,      // per-frame target position -> tracking error
+    "logFrameInfo": true,               // per-frame timing -> fps / stutter stats
+    "logPlayerActions": true,           // per-frame aim + hit/miss/destroy events
+    "logTrialResponse": true,
+    "logUsers": true,
+    "logOnChange": false,               // MUST be false: parser needs a sample every frame
+
+    // ---------------- One database per run ----------------
+    // false => the results file is named <sessionId>_<user>_<UTC timestamp>.db,
+    // so one run is one file and the filename already carries scenario, person
+    // and time. That is what lets the exporter handle a finished run on its own
+    // instead of re-parsing every database ever recorded, and it caps the damage
+    // from a crash at a single run.
+    //
+    // Note this drops the experiment-config hash from the filename, so the record
+    // of WHICH config produced a run now lives only in the Experiments table --
+    // see the apostrophe warning in the header above.
+    "logToSingleDb": false,
+    "sessionParametersToLog": [ "frameRate", "maxTrialDuration", "pretrialDuration", "scoreModel" ],
+
+    // ---------------- No parser is launched from here ----------------
+    // There is deliberately no commandsOnSessionStart / commandsOnSessionEnd.
+    // Export belongs to the launcher: it watches ./results, notices when the
+    // database is finished, and exports that one run. Shelling out to a parser
+    // from inside the game meant a 13 s full re-parse running on top of the first
+    // seconds of the NEXT run, plus a lock file to stop two parses colliding.
+
+    // ---------------- Menu (kept compact so Resume/Quit fit on screen) ----------------
+    "showMenuLogo": false,
+    "showExperimentSettings": true,     // needed to pick which scenario to run
+    "showUserSettings": true,
+
+    // Player ID entry: adds a "New User" text box + "+" button to the menu.
+    // Typing an ID and pressing "+" creates that user, makes them current, and
+    // gives them a fresh set of scenarios. The ID is written to every results
+    // row as subject_id, and the .db filename includes it.
+    "allowUserAdd": true,
+    "requireUserAdd": false,            // returning players can re-pick their ID
+
+    "allowSensitivityChange": true,
+    // The Reticle Control block is what pushes Resume/Quit off the bottom of a
+    // 1080p screen. Setting "allowReticleChange" alone does NOT work: GuiElements
+    // .cpp:471 recomputes it as the OR of the four sub-flags below, discarding
+    // whatever the config said. All four must be false.
+    // (Note the key is allowReticleChangeTimeChange -- the docs example calls it
+    //  allowReticleTimeChange, which getIfPresent silently ignores.)
+    "allowReticleChange": false,
+    "allowReticleIdxChange": false,
+    "allowReticleSizeChange": false,
+    "allowReticleColorChange": false,
+    "allowReticleChangeTimeChange": false,
+    "showReticlePreview": false,
+    "allowSessionChange": true,
+    "showMenuOnStartup": true,
+    "showMenuBetweenSessions": true,
+
+    // ---------------- Timing defaults (overridden per session) ----------------
+    "clickToStart": true,
+    "pretrialDuration": 0.5,
+    "maxTrialDuration": 60.0,
+    "trialFeedbackDuration": 0.8,
+    // ===== HOW SCENARIOS STAY ON THE MENU =====
+    // This used to be 86400 (a day). FPSci hides a scenario once its session is
+    // marked complete, and markSessComplete sits behind the
+    // "stateElapsedTime > sessionFeedbackDuration" gate in the sessionFeedback
+    // state (Session.cpp:717-722), so a one-day duration kept every scenario
+    // replayable by making that gate never open.
+    //
+    // The problem is that the SAME gate guards everything else FPSci does at the
+    // end of a session: endLogging (the flush), commandsOnSessionEnd,
+    // saveUserConfig, and session-level questions. A day-long duration disabled
+    // all of it, which is what made saving feel broken.
+    //
+    // The supported way to keep a scenario replayable is "allowRepeat": true in
+    // userstatus.Any, which makes GuiElements.cpp:668-675 drop ONE matching entry
+    // from the drop-down per completion rather than every match. Each scenario is
+    // listed 50 times there, so the menu never empties in practice.
+    //
+    // So this can go back to a normal couple of seconds: long enough to read your
+    // score, then the "Submit this run?" prompt appears.
+    "sessionFeedbackDuration": 2.5,
+    "maxPretrialAimDisplacement": 180.0,   // disabled globally; enabled for "flicks"
+
+    // ---------------- Rendering / player ----------------
+    // NO "frameRate" KEY HERE, DELIBERATELY.
+    //
+    // This used to be set to 8192 to mean "unlocked". It never had any effect:
+    // every Sessions row ever recorded logged 1000, the RenderConfig default
+    // (FpsConfig.h:30), and rewriting it as a float (8192.0) on 2026-08-21
+    // changed nothing. The same field feeds both the logged value and
+    // updateFrameParameters (FPSciApp.cpp:729), so rendering was getting 1000
+    // as well. The shipped v23.04.01 binary simply does not pick this key up.
+    //
+    // It does not matter. A 1000 Hz target is already an unlocked frame budget,
+    // and the measured rate is ~477 Hz -- GPU-bound, far below either number.
+    // Leaving the key out means the logged 1000 is now the truth rather than a
+    // discrepancy to re-investigate every time someone reads the results.
+    "horizontalFieldOfView": 103.0,
+    "showHUD": true,
+    "showAmmo": false,
+    "renderWeaponStatus": true,
+
+    // ---------------- Player is fully immobilised: pure aim task ----------------
+    // Every translation path is shut off, so the camera position is constant for
+    // the whole run. Only mouse look remains (turnScale stays at 1.0 -- zeroing
+    // that would disable aiming itself).
+    "moveRate": 0.0,                            // no walk speed
+    "moveScale": Vector2(0.0, 0.0),             // no forward/back, no strafe
+    "playerAxisLock": [ true, true, true ],     // lock X, Y and Z translation
+    "jumpVelocity": 0.0,                        // no jump impulse
+    "jumpInterval": 0.0,
+    "playerHeight": 1.5,
+    "crouchHeight": 1.5,                        // equal to playerHeight => no crouch
+    "playerGravity": Vector3(0.0, 0.0, 0.0),    // no fall/settle drift
+    "disablePlayerMotionBetweenTrials": true,   // stationary between trials too
+    "resetPlayerPositionBetweenTrials": true,   // identical geometry every trial
+    "turnScale": Vector2(1.0, 1.0),             // mouse look MUST stay enabled
+
+    // ---------------- Feedback ----------------
+    "referenceTargetInitialFeedback": "Click the reference target to begin.",
+    "trialSuccessFeedback": "%trialTaskTimeMs ms  |  %trialShotsHit/%trialTotalShots hits",
+    "trialFailureFeedback": "Miss!",
+    "sessionCompleteFeedback": "Scenario complete! Score: %sessionScore",
+    "allSessionsCompleteFeedback": "All scenarios complete.",
+
+
+    // =================================================================
+    //  TARGETS
+    //
+    //  UNITS -- these differ, and the FPSci docs get visualSize wrong:
+    //    eccH / eccV  : degrees (spawn offset from centre)   [genuinely angular]
+    //    speed        : degrees/second                        [genuinely angular]
+    //    visualSize   : model DIAMETER IN METRES, and player-space targets are
+    //                   hard-pinned to 1 m away (Session.h: m_targetDistance =
+    //                   1.0f), so visualSize behaves as radians and the on-screen
+    //                   angular diameter is  2*atan(visualSize/2).
+    //                   The "distance" config field is IGNORED on this path, so
+    //                   it is deliberately not set below.
+    //
+    //  Sizes below are chosen for the angular diameter noted on each target.
+    //  NOTE: FPSci spawns at a random eccentricity inside the eccH/eccV box, so
+    //  the grid tasks are a random spread rather than a fixed lattice like
+    //  Aim Labs. Player-space targets have no lattice option.
+    // =================================================================
+    "targets": [
+        {
+            // ---- Gridshot Ultimate: 3 big STATIC spheres spread over a grid ----
+            // Aim Labs keeps three targets on screen at all times; popping one
+            // instantly respawns it elsewhere. One click per target.
+            "id": "gridshot_target",
+            "destSpace": "player",
+            "visualSize": [ 0.033, 0.033 ],   // 1.89 deg angular diameter
+            "speed": [ 0.0, 0.0 ],            // STATIC -- Gridshot targets never move
+            "symmetricEccH": true,
+            "symmetricEccV": true,
+            "eccH": [ 3.0, 18.0 ],
+            "eccV": [ 0.0, 11.0 ],
+            "respawnCount": -1,               // respawn forever; trial ends on the timer
+            "logTargetTrajectory": true,
+            "hitSound": "sound/fpsci_ding_100ms.wav",
+            "destroyedSound": "sound/fpsci_destroy_150ms.wav"
+        },
+        {
+            // ---- Spidershot: one STATIC target anywhere on screen, snap to it ----
+            // Spidershot trains whole-screen snapping / wide-swing flicks, so the
+            // eccentricity box is deliberately much wider than gridshot and the
+            // target is a touch smaller.
+            "id": "flick_target",
+            "destSpace": "player",
+            "visualSize": [ 0.030, 0.030 ],   // 1.72 deg angular diameter
+            "speed": [ 0.0, 0.0 ],            // STATIC
+            "symmetricEccH": true,
+            "symmetricEccV": true,
+            "eccH": [ 12.0, 34.0 ],           // whole-screen spread forces a real flick
+            "eccV": [ 0.0, 16.0 ],
+            "respawnCount": 0,                // trial ends when destroyed
+            "logTargetTrajectory": true,
+            "destroyedSound": "sound/fpsci_destroy_150ms.wav"
+        },
+        {
+            // ---- Microshot: small STATIC targets, pure precision ----
+            // Stationary on purpose: Microshot is a micro-flick / jiggle-peek
+            // task in Aim Labs, not a drift-tracking one.
+            "id": "micro_target",
+            "destSpace": "player",
+            "visualSize": [ 0.018, 0.018 ],   // 1.03 deg -- small, but comfortably hittable
+            "speed": [ 0.0, 0.0 ],            // STATIC -- no drift, no motion at all
+            "symmetricEccH": true,
+            "symmetricEccV": true,
+            "eccH": [ 1.5, 8.0 ],             // stays near the crosshair
+            "eccV": [ 0.0, 5.0 ],
+            "respawnCount": -1,
+            "logTargetTrajectory": true,
+            "hitSound": "sound/fpsci_ding_100ms.wav",
+            "destroyedSound": "sound/fpsci_destroy_150ms.wav"
+        },
+        {
+            // ---- Spheretrack: one big sphere in continuous smooth motion ----
+            // Never dies (see damagePerSecond = 0 on the tracking weapon), so it
+            // just keeps moving for the full 60 s and the score is time-on-target.
+            // Slower and less jittery than the old config: it sweeps smoothly
+            // rather than changing direction every 0.4 s.
+            "id": "track_target",
+            "destSpace": "player",
+            "visualSize": [ 0.052, 0.052 ],   // 2.98 deg -- bigger, as tracking targets are
+            "speed": [ 12.0, 28.0 ],
+            "motionChangePeriod": [ 0.6, 1.4 ],
+            "symmetricEccH": true,
+            "symmetricEccV": true,
+            "eccH": [ 2.0, 20.0 ],
+            "eccV": [ 0.0, 8.0 ],
+            "respawnCount": -1,
+            "logTargetTrajectory": true
+            // no hitSound: in continuous-beam mode a hit fires EVERY frame, so a
+            // hit sound here would be a ~240 Hz buzz.
+        }
+    ],
+
+    // =================================================================
+    //  SESSIONS = one per scenario
+    // =================================================================
+    "sessions": [
+        {
+            "id": "gridshot",
+            "description": "Gridshot Ultimate",
+            "maxTrialDuration": 60.0,           // 60 s run, classic gridshot length
+            "pretrialDuration": 0.4,
+            "scoreModel": "targets destroyed",
+            "scoreMultiplier": 1,
+            "blockCount": 1,
+            "randomizeTaskOrder": false,
+
+            // ---- The submit gate ----
+            // Session-level questions are asked at the END of a session, in the
+            // sessionFeedback state, right after the score screen. This answer is
+            // what the exporter reads: Yes sends the run to the CSVs, No leaves it
+            // as a raw recording only. Nothing is deleted either way.
+            //
+            // randomOrder MUST stay false. It defaults to TRUE for MultipleChoice
+            // (FpsConfig.cpp:703-707), which would swap Yes and No between runs --
+            // a bad property for a submit button. optionKeys lets you answer with
+            // Y or N without reaching for the mouse.
+            //
+            // presentQuestions re-presents a dialog that was closed without an
+            // answer (Session.cpp:851), so this cannot be dismissed. An unanswered
+            // session also never completes, so the scenario stays on the menu.
+            "questions": [
+                {
+                    "type": "MultipleChoice",
+                    "prompt": "Submit this run?",
+                    "title": "Submit",
+                    "options": [ "Yes", "No" ],
+                    "optionKeys": [ "y", "n" ],
+                    "randomOrder": false
+                }
+            ],
+
+            "weapon": {
+                "id": "click_hitscan",
+                "maxAmmo": 10000,
+                "firePeriod": 0.1,              // 10 clicks/s cap
+                "autoFire": false,              // one click = one shot
+                "damagePerSecond": 20.0,        // 20 * 0.1 = 2.0 dmg >= 1.0 health -> 1-shot kill
+                "hitScan": true,
+                "fireSpreadDegrees": 0.0,
+                "renderModel": false,
+                "renderBullets": false,
+                "fireSound": "sound/fpsci_fire_100ms.wav"
+            },
+            // NOTE: with a tasks array present, nextBlock (Session.cpp:350-366) takes
+            // the repeat count from tasks[].count and IGNORES the "count" set on the
+            // individual trial below.
+            "tasks": [
+                {
+                    "id": "gridshot_task",
+                    "trialOrders": [
+                        { "order": [ "gridshot_60s" ] }
+                    ],
+                    "count": 1
+                }
+            ],
+            "trials": [
+                {
+                    "id": "gridshot_60s",
+                    // three simultaneous targets = the Aim Labs gridshot layout
+                    "targetIds": [ "gridshot_target", "gridshot_target", "gridshot_target" ],
+                    "count": 1                  // a single 60 s run, like Aim Labs
+                }
+            ]
+        },
+        {
+            "id": "flicks",
+            "description": "Spidershot (flicks)",
+
+            // ---- Aim Labs pair mechanic ----
+            // One FPSci trial == one PAIR of targets. Session.cpp:611 ends a trial
+            // on (timeout || no targets left || out of ammo) and then calls
+            // clearTargets(), so this gives exactly the requested behaviour:
+            //   both shot        -> trial ends early, next pair spawns
+            //   one or none shot -> timeout wipes the leftovers, next pair spawns
+            // Both targets of a pair spawn together because a trial spawns every
+            // entry of targetIds at once.
+            "maxTrialDuration": 3.0,            // shot clock for the pair
+
+            // No reference target between pairs. showRefTarget defaults to TRUE and
+            // Session.cpp:645 returns to the referenceTarget state after EVERY
+            // trial, so the old config made you click a centre target before each
+            // flick -- that is what felt wrong. False makes Session.cpp:775 skip
+            // straight to pretrial, so pairs just keep coming like Aim Labs.
+            // NOTE the read key is "showReferenceTarget" (FpsConfig.cpp:480); the
+            // name FPSci writes back out, "showRefTarget", is silently ignored.
+            "showReferenceTarget": false,
+
+            // Snappy hand-off between pairs; the small random range still costs
+            // the player perfect anticipation without feeling laggy.
+            "pretrialDuration": 0.25,
+            "pretrialDurationRange": [ 0.15, 0.4 ],
+            "trialFeedbackDuration": 0.0,       // no pause between pairs
+            // maxPretrialAimDisplacement deliberately not set here: it inherits the
+            // disabled 180.0 from the top level. The old 2.0 deg limit fired the
+            // "Hold still!" invalidation constantly once the crosshair was left
+            // wherever the previous target died.
+            "scoreModel": "time remaining",
+            "scoreMultiplier": 100,
+            "blockCount": 1,
+            "randomizeTaskOrder": false,
+
+            // ---- The submit gate ----
+            // Session-level questions are asked at the END of a session, in the
+            // sessionFeedback state, right after the score screen. This answer is
+            // what the exporter reads: Yes sends the run to the CSVs, No leaves it
+            // as a raw recording only. Nothing is deleted either way.
+            //
+            // randomOrder MUST stay false. It defaults to TRUE for MultipleChoice
+            // (FpsConfig.cpp:703-707), which would swap Yes and No between runs --
+            // a bad property for a submit button. optionKeys lets you answer with
+            // Y or N without reaching for the mouse.
+            //
+            // presentQuestions re-presents a dialog that was closed without an
+            // answer (Session.cpp:851), so this cannot be dismissed. An unanswered
+            // session also never completes, so the scenario stays on the menu.
+            "questions": [
+                {
+                    "type": "MultipleChoice",
+                    "prompt": "Submit this run?",
+                    "title": "Submit",
+                    "options": [ "Yes", "No" ],
+                    "optionKeys": [ "y", "n" ],
+                    "randomOrder": false
+                }
+            ],
+
+            "weapon": {
+                "id": "click_hitscan",
+                "maxAmmo": 10000,
+                "firePeriod": 0.1,
+                "autoFire": false,
+                "damagePerSecond": 20.0,
+                "hitScan": true,
+                "fireSpreadDegrees": 0.0,
+                "renderModel": false,
+                "renderBullets": false,
+                "fireSound": "sound/fpsci_fire_100ms.wav"
+            },
+            // All 25 pairs are listed in ONE order with count 1, so the whole run is
+            // a single task. Using count=25 on a 1-pair order would make it 25 tasks.
+            // NOTE: with a tasks array present, nextBlock (Session.cpp:350-366) takes
+            // the repeat count from tasks[].count and IGNORES the "count" set on the
+            // individual trial below.
+            "tasks": [
+                {
+                    "id": "flicks_task",
+                    "trialOrders": [
+                        { "order": [
+                                "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair", "flick_pair"
+                            ] }
+                    ],
+                    "count": 1
+                }
+            ],
+            "trials": [
+                {
+                    "id": "flick_pair",
+                    // two targets, spawned simultaneously
+                    "targetIds": [ "flick_target", "flick_target" ],
+                    "count": 25                 // 25 pairs = 50 targets, ~90 s run
+                }
+            ]
+        },
+        {
+            "id": "microadjust",
+            "description": "Microshot (micro adjust)",
+            "maxTrialDuration": 60.0,
+            "pretrialDuration": 0.4,
+            "scoreModel": "targets destroyed",
+            "scoreMultiplier": 1,
+            "blockCount": 1,
+            "randomizeTaskOrder": false,
+
+            // ---- The submit gate ----
+            // Session-level questions are asked at the END of a session, in the
+            // sessionFeedback state, right after the score screen. This answer is
+            // what the exporter reads: Yes sends the run to the CSVs, No leaves it
+            // as a raw recording only. Nothing is deleted either way.
+            //
+            // randomOrder MUST stay false. It defaults to TRUE for MultipleChoice
+            // (FpsConfig.cpp:703-707), which would swap Yes and No between runs --
+            // a bad property for a submit button. optionKeys lets you answer with
+            // Y or N without reaching for the mouse.
+            //
+            // presentQuestions re-presents a dialog that was closed without an
+            // answer (Session.cpp:851), so this cannot be dismissed. An unanswered
+            // session also never completes, so the scenario stays on the menu.
+            "questions": [
+                {
+                    "type": "MultipleChoice",
+                    "prompt": "Submit this run?",
+                    "title": "Submit",
+                    "options": [ "Yes", "No" ],
+                    "optionKeys": [ "y", "n" ],
+                    "randomOrder": false
+                }
+            ],
+
+            "weapon": {
+                "id": "click_hitscan_precise",
+                "maxAmmo": 10000,
+                "firePeriod": 0.15,
+                "autoFire": false,
+                "damagePerSecond": 20.0,
+                "hitScan": true,
+                "fireSpreadDegrees": 0.0,
+                "renderModel": false,
+                "renderBullets": false,
+                "fireSound": "sound/fpsci_fire_100ms.wav"
+            },
+            // NOTE: with a tasks array present, nextBlock (Session.cpp:350-366) takes
+            // the repeat count from tasks[].count and IGNORES the "count" set on the
+            // individual trial below.
+            "tasks": [
+                {
+                    "id": "microadjust_task",
+                    "trialOrders": [
+                        { "order": [ "microadjust_60s" ] }
+                    ],
+                    "count": 1
+                }
+            ],
+            "trials": [
+                {
+                    "id": "microadjust_60s",
+                    "targetIds": [ "micro_target", "micro_target", "micro_target" ],
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "id": "tracking",
+            "description": "Spheretrack (tracking)",
+            "maxTrialDuration": 60.0,
+            "pretrialDuration": 0.4,
+            // "shots hit" is the right score here: in continuous-beam mode FPSci
+            // registers one hit per frame the beam is on the target, so the score
+            // IS time-on-target. "targets destroyed" would always read 0 because
+            // the target is unkillable.
+            "scoreModel": "shots hit",
+            "scoreMultiplier": 1,
+            "blockCount": 1,
+            "randomizeTaskOrder": false,
+
+            // ---- The submit gate ----
+            // Session-level questions are asked at the END of a session, in the
+            // sessionFeedback state, right after the score screen. This answer is
+            // what the exporter reads: Yes sends the run to the CSVs, No leaves it
+            // as a raw recording only. Nothing is deleted either way.
+            //
+            // randomOrder MUST stay false. It defaults to TRUE for MultipleChoice
+            // (FpsConfig.cpp:703-707), which would swap Yes and No between runs --
+            // a bad property for a submit button. optionKeys lets you answer with
+            // Y or N without reaching for the mouse.
+            //
+            // presentQuestions re-presents a dialog that was closed without an
+            // answer (Session.cpp:851), so this cannot be dismissed. An unanswered
+            // session also never completes, so the scenario stays on the menu.
+            "questions": [
+                {
+                    "type": "MultipleChoice",
+                    "prompt": "Submit this run?",
+                    "title": "Submit",
+                    "options": [ "Yes", "No" ],
+                    "optionKeys": [ "y", "n" ],
+                    "randomOrder": false
+                }
+            ],
+
+            "weapon": {
+                "id": "laser",
+                // firePeriod 0 + autoFire = "continuous" mode (Weapon.h:119), which
+                // fires only while the left button is HELD -- hold-to-beam, exactly
+                // like Spheretrack. This is the only scenario with autoFire on.
+                "firePeriod": 0.0,
+                "autoFire": true,
+                // UNLIMITED TARGET HP. Target health is hard-coded to 1.0 in
+                // TargetEntity.h:122 with no config field, so the only way to make a
+                // target unkillable is to deal no damage. Continuous mode computes
+                // damage as fireDuration * damagePerSecond (FPSciApp.cpp:909), so
+                // 0.0 dps = 0 damage per frame and the sphere never dies -- while
+                // every on-target frame is still logged as a hit.
+                "damagePerSecond": 0.0,
+                // Continuous mode spends ONE ammo per frame (Weapon.cpp:357), not
+                // per click. At ~240 fps the old maxAmmo of 10000 ran dry ~41 s into
+                // the 60 s trial and the beam silently stopped working for the rest
+                // of the run. 100 million covers hours at any frame rate.
+                "maxAmmo": 100000000,
+                "hitScan": true,
+                "fireSpreadDegrees": 0.0,
+                "renderModel": false,
+                "renderBullets": false,
+                // MUST NOT be empty. An empty fireSound leaves m_fireSound null
+                // (Weapon.h:233), and the looped-audio branch of playSound
+                // (Weapon.cpp:453) dereferences it WITHOUT a null check -- unlike
+                // the discrete branch right below it. That crashed the whole app
+                // on the first shot of every tracking run. A continuous weapon
+                // loads this file as a loop and stops it on mouse-up, so it plays
+                // as a proper beam. Set fireSoundVol to 0.0 to silence it safely.
+                "fireSound": "sound/42108__marcuslee__Laser_Wrath_6.wav",
+                "fireSoundVol": 0.6
+            },
+            // NOTE: with a tasks array present, nextBlock (Session.cpp:350-366) takes
+            // the repeat count from tasks[].count and IGNORES the "count" set on the
+            // individual trial below.
+            "tasks": [
+                {
+                    "id": "tracking_task",
+                    "trialOrders": [
+                        { "order": [ "tracking_60s" ] }
+                    ],
+                    "count": 1
+                }
+            ],
+            "trials": [
+                {
+                    "id": "tracking_60s",
+                    "targetIds": [ "track_target" ],
+                    "count": 1
+                }
+            ]
+        }
+    ]
+}

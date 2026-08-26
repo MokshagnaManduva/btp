@@ -1,0 +1,7 @@
+# Recording from the strap (record.py, scan.py) needs a BLE stack.
+# On Windows bleak uses the built-in WinRT Bluetooth APIs -- no driver install.
+bleak>=0.22
+
+# Everything downstream -- correlate.py, polar_h10.protocol / clock / hrv /
+# fileio, and the tests -- is deliberately stdlib-only, so analysis works on any
+# machine even without Bluetooth.

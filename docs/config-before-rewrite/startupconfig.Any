@@ -1,0 +1,18 @@
+{ 
+    "audioEnable": true, 
+    "defaultExperiment": { 
+        "experimentConfigFilename": "experimentconfig.Any", 
+        "keymapConfigFilename": "keymap.Any", 
+        "name": "default", 
+        "resultsDirPath": "./results", 
+        "systemConfigFilename": "systemconfig.Any", 
+        "userConfigFilename": "userconfig.Any", 
+        "userStatusFilename": "userstatus.Any"
+    }, 
+    
+    "developerMode": false, 
+    "experimentList": [ ], 
+    "fullscreen": true, 
+    "jsonAnyOutput": true, 
+    "waypointEditorMode": false
+} 
